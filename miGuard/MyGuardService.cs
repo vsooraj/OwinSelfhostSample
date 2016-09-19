@@ -2,7 +2,6 @@
 using miGuard.Models;
 using System.Collections.Generic;
 using System.ServiceProcess;
-using System.Threading;
 
 namespace miGuard
 {
@@ -16,22 +15,20 @@ namespace miGuard
         protected override void OnStart(string[] args)
         {
             Logger.WriteLog("MiGuard service started");
-            Logger.WriteLog("Starting web Server...");
-            string baseUri = SiteGlobal.BaseUrl;
-            if (!string.IsNullOrEmpty(baseUri))
+
+            string baseUri = null;
+            if (string.IsNullOrEmpty(baseUri))
+            {
+                baseUri = SiteGlobal.BaseUrl;
+
+            }
+            else
             {
                 baseUri = "http://localhost:8080/";
             }
-            using (WebApp.Start<Startup>(baseUri))
-            {
-                Logger.WriteLog("Read all the companies...");
-                var companyClient = new CompanyRepository(baseUri);
-
-                var companies = companyClient.GetCompanies();
-                WriteCompaniesList(companies);
-            }
-
-            var stateTimer = new Timer(CheckStatus, true, 30000, 10000);
+            WebApp.Start<Startup>(baseUri);
+            Logger.WriteLog("Starting web Server..." + baseUri);
+            //var stateTimer = new Timer(CheckStatus, true, 30000, 10000);
         }
 
         private void WriteCompaniesList(IEnumerable<Company> companies)
