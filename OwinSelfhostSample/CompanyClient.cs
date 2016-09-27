@@ -48,7 +48,7 @@ namespace OwinSelfhostSample
             HttpResponseMessage response;
             using (var client = CreateClient())
             {
-                response = client.PostAsJsonAsync(client.BaseAddress, company).Result;
+                response = client.PostAsJsonAsync(client.BaseAddress.ToString(), company).Result;
             }
             return response.StatusCode;
         }
@@ -59,7 +59,7 @@ namespace OwinSelfhostSample
             HttpResponseMessage response;
             using (var client = CreateClient())
             {
-                response = client.PutAsJsonAsync(client.BaseAddress, company).Result;
+                response = client.PutAsJsonAsync(client.BaseAddress.ToString(), company).Result;
             }
             return response.StatusCode;
         }
