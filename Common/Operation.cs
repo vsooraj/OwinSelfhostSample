@@ -1,6 +1,6 @@
-﻿namespace OwinSelfhostSample.Models
+﻿namespace Common
 {
-    public class Company
+    public class Operation
     {
         public int Id { get; set; }
         public string Name { get; set; }
