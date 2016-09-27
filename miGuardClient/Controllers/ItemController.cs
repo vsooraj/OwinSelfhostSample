@@ -1,11 +1,11 @@
-﻿using miGuardClient.Utilities;
+﻿using Common;
+using miGuardClient.Utilities;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Web;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace miGuardClient.Controllers
@@ -23,9 +23,18 @@ namespace miGuardClient.Controllers
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
         // GET: Item
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View();
+            HttpResponseMessage responseMessage = await client.GetAsync(client.BaseAddress);
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+
+                var items = JsonConvert.DeserializeObject<List<Item>>(responseData);
+
+                return View(items);
+            }
+            return View("Error");
         }
 
         // GET: Item/Details/5

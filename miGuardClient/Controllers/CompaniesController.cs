@@ -1,35 +1,33 @@
-﻿using miGuardClient.Models;
+﻿using Common;
+
 using miGuardClient.Utilities;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 
 namespace miGuardClient.Controllers
 {
-    public class CustomerController : Controller
+    public class CompaniesController : Controller
     {
-           HttpClient client;
+        HttpClient client;
         //The URL of the WEB API Service
         string url = Appsettings.AppSetting("hostUrl");
         //The HttpClient Class, this will be used for performing 
         //HTTP Operations, GET, POST, PUT, DELETE
         //Set the base address and the Header Formatter
-        public CustomerController( )
+        public CompaniesController()
         {
             client = new HttpClient();
-            client.BaseAddress = new Uri(url+"companies");
+            client.BaseAddress = new Uri(url + "companies");
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        // GET: CustomerInfo
+        // GET: companies
         public async Task<ActionResult> Index()
         {
             HttpResponseMessage responseMessage = await client.GetAsync(client.BaseAddress);
@@ -37,7 +35,7 @@ namespace miGuardClient.Controllers
             {
                 var responseData = responseMessage.Content.ReadAsStringAsync().Result;
 
-                var customers = JsonConvert.DeserializeObject<List<Customer>>(responseData);
+                var customers = JsonConvert.DeserializeObject<List<Company>>(responseData);
 
                 return View(customers);
             }
@@ -45,12 +43,12 @@ namespace miGuardClient.Controllers
         }
         public ActionResult Create()
         {
-            return View(new Customer());
+            return View(new Company());
         }
 
         //The Post method
         [HttpPost]
-        public async Task<ActionResult> Create(Customer customer)
+        public async Task<ActionResult> Create(Company customer)
         {
 
             HttpResponseMessage responseMessage = await client.PostAsJsonAsync(url, customer);
@@ -68,7 +66,7 @@ namespace miGuardClient.Controllers
             {
                 var responseData = responseMessage.Content.ReadAsStringAsync().Result;
 
-                var Employee = JsonConvert.DeserializeObject<Customer>(responseData);
+                var Employee = JsonConvert.DeserializeObject<Company>(responseData);
 
                 return View(Employee);
             }
@@ -77,7 +75,7 @@ namespace miGuardClient.Controllers
 
         //The PUT Method
         [HttpPost]
-        public async Task<ActionResult> Edit(int id, Customer customer)
+        public async Task<ActionResult> Edit(int id, Company customer)
         {
 
             HttpResponseMessage responseMessage = await client.PutAsJsonAsync(url + "/" + id, customer);
@@ -95,7 +93,7 @@ namespace miGuardClient.Controllers
             {
                 var responseData = responseMessage.Content.ReadAsStringAsync().Result;
 
-                var Employee = JsonConvert.DeserializeObject<Customer>(responseData);
+                var Employee = JsonConvert.DeserializeObject<Company>(responseData);
 
                 return View(Employee);
             }
@@ -104,7 +102,7 @@ namespace miGuardClient.Controllers
 
         //The DELETE method
         [HttpPost]
-        public async Task<ActionResult> Delete(int id, Customer customer)
+        public async Task<ActionResult> Delete(int id, Company customer)
         {
 
             HttpResponseMessage responseMessage = await client.DeleteAsync(url + "/" + id);
