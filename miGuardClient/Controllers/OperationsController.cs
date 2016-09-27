@@ -10,19 +10,19 @@ using System.Web.Mvc;
 
 namespace miGuardClient.Controllers
 {
-    public class ItemController : Controller
+    public class OperationsController : Controller
     {
         HttpClient client;
-        //The URL of the WEB API Service
         string url = Appsettings.AppSetting("hostUrl");
-        public ItemController()
+        // GET: Operations
+        public OperationsController()
         {
             client = new HttpClient();
-            client.BaseAddress = new Uri(url + "items");
+            client.BaseAddress = new Uri(url + "operations");
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
         }
-        // GET: Item
         public async Task<ActionResult> Index()
         {
             HttpResponseMessage responseMessage = await client.GetAsync(client.BaseAddress);
@@ -30,26 +30,36 @@ namespace miGuardClient.Controllers
             {
                 var responseData = responseMessage.Content.ReadAsStringAsync().Result;
 
-                var items = JsonConvert.DeserializeObject<List<Item>>(responseData);
+                var operations = JsonConvert.DeserializeObject<List<Operation>>(responseData);
 
-                return View(items);
+                return View(operations);
             }
             return View("Error");
         }
 
-        // GET: Item/Details/5
-        public ActionResult Details(int id)
+        // GET: Operations/Details/5
+        public async Task<ActionResult> Details(int id)
         {
-            return View();
+            HttpResponseMessage responseMessage = await client.GetAsync(client.BaseAddress + "/" + id);
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+
+                var operation = JsonConvert.DeserializeObject<Operation>(responseData);
+
+                return View(operation);
+            }
+            return View("Error");
+
         }
 
-        // GET: Item/Create
+        // GET: Operations/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Item/Create
+        // POST: Operations/Create
         [HttpPost]
         public ActionResult Create(FormCollection collection)
         {
@@ -65,13 +75,13 @@ namespace miGuardClient.Controllers
             }
         }
 
-        // GET: Item/Edit/5
+        // GET: Operations/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: Item/Edit/5
+        // POST: Operations/Edit/5
         [HttpPost]
         public ActionResult Edit(int id, FormCollection collection)
         {
@@ -87,13 +97,13 @@ namespace miGuardClient.Controllers
             }
         }
 
-        // GET: Item/Delete/5
+        // GET: Operations/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: Item/Delete/5
+        // POST: Operations/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {

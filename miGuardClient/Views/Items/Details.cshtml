@@ -1,0 +1,67 @@
+﻿@model Common.Item
+
+<div>
+    <h4>Item</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.requestType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.requestType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.encryptionProvider)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.encryptionProvider)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.encryptionKey)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.encryptionKey)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.sourceDevice)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.sourceDevice)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.sourceEntity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.sourceEntity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.content)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.content)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.metadata)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.metadata)
+        </dd>
+
+    </dl>
+</div>
+<p>
+   @Html.ActionLink("Back to List", "Index")
+</p>

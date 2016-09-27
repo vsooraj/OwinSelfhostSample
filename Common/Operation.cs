@@ -2,7 +2,9 @@
 {
     public class Operation
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
+        public int operationId { get; set; }
+        public bool required { get; set; }
+        public string[] type { get; set; }
     }
 }
+

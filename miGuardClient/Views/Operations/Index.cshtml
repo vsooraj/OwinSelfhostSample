@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Common.Operation>
+
+<p>
+    <h2>Items</h2>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.operationId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.required)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <th>
+            @Html.DisplayFor(modelItem => item.operationId)
+        </th>
+        <td>
+            @Html.DisplayFor(modelItem => item.required)
+        </td>
+        <td>
+          
+            @Html.ActionLink("Details", "Details", new { id=item.operationId })
+        </td>
+    </tr>
+}
+
+</table>
