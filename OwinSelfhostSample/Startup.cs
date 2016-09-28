@@ -1,4 +1,6 @@
-﻿using Owin;
+﻿using Microsoft.Owin.FileSystems;
+using Microsoft.Owin.StaticFiles;
+using Owin;
 using System.Web.Http;
 
 namespace OwinSelfhostSample
@@ -18,6 +20,20 @@ namespace OwinSelfhostSample
             );
 
             appBuilder.UseWebApi(config);
+
+            const string rootFolder = @"..\..\HtmlClient";
+            var fileSystem = new PhysicalFileSystem(rootFolder);
+            var options = new FileServerOptions
+            {
+                EnableDefaultFiles = true,
+                FileSystem = fileSystem
+            };
+            //options.StaticFileOptions.FileSystem = physicalFileSystem;
+            options.StaticFileOptions.ServeUnknownFileTypes = true;
+            options.DefaultFilesOptions.DefaultFileNames = new[] { "index.html" }; //put whatever default pages you like here
+            appBuilder.UseFileServer(options);
+            appBuilder.UseFileServer(options);
         }
+
     }
 }

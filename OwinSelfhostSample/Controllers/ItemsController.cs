@@ -9,9 +9,9 @@ namespace OwinSelfhostSample.Controllers
     {
         private static List<Item> _Db = new List<Item>
             {
-                new Item { itemId= 1, content="Lumia",encryptionKey="12345",encryptionProvider="sha256",metadata="Lumia Emtatdata",requestType="GET",sourceEntity="Lumia Entity", sourceDevice = "Lumia" },
-                new Item { itemId = 2, content="Nexus",encryptionKey="12345",encryptionProvider="sha256",metadata="Nexus Emtatdata",requestType="GET",sourceEntity="Nexus Entity", sourceDevice = "Nexus"},
-                new Item { itemId = 3,content="iPhone",encryptionKey="12345",encryptionProvider="sha256",metadata="iPhone Emtatdata",requestType="GET",sourceEntity="iPhone Entity", sourceDevice = "iPhone" }
+                new Item { itemId = 1, content="Lumia",encryptionKey="12345",encryptionProvider="sha256", MetaItem=new Dictionary<string, string>() { {"Lumia", "Lumia Emtatdata" } },requestType="GET",sourceEntity="Lumia Entity", sourceDevice = "Lumia" },
+                new Item { itemId = 2, content="Nexus",encryptionKey="12345",encryptionProvider="sha256",MetaItem= new Dictionary<string, string>(){ {"Nexus", "Nexus Emtatdata" } },requestType="POST",sourceEntity="Nexus Entity", sourceDevice = "Nexus"},
+                new Item { itemId = 3,content="iPhone",encryptionKey="12345",encryptionProvider="sha256",MetaItem= new Dictionary<string, string>(){ {"iPhone", "iPhone Emtatdata"} },requestType="PUT",sourceEntity="iPhone Entity", sourceDevice = "iPhone" }
             };
         public IEnumerable<Item> Get()
         {

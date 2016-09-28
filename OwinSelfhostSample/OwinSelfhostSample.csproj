@@ -36,12 +36,20 @@
       <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Owin.FileSystems, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.FileSystems.3.0.1\lib\net45\Microsoft.Owin.FileSystems.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Owin.Host.HttpListener, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.Host.HttpListener.3.0.1\lib\net45\Microsoft.Owin.Host.HttpListener.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Owin.Hosting, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.Hosting.3.0.1\lib\net45\Microsoft.Owin.Hosting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.StaticFiles, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.StaticFiles.3.0.1\lib\net45\Microsoft.Owin.StaticFiles.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -91,6 +99,47 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="HtmlClient\less\accordion.less" />
+    <None Include="HtmlClient\less\alerts.less" />
+    <None Include="HtmlClient\less\bootstrap.less" />
+    <None Include="HtmlClient\less\breadcrumbs.less" />
+    <None Include="HtmlClient\less\button-groups.less" />
+    <None Include="HtmlClient\less\buttons.less" />
+    <None Include="HtmlClient\less\carousel.less" />
+    <None Include="HtmlClient\less\close.less" />
+    <None Include="HtmlClient\less\code.less" />
+    <None Include="HtmlClient\less\component-animations.less" />
+    <None Include="HtmlClient\less\dropdowns.less" />
+    <None Include="HtmlClient\less\forms.less" />
+    <None Include="HtmlClient\less\grid.less" />
+    <None Include="HtmlClient\less\hero-unit.less" />
+    <None Include="HtmlClient\less\labels-badges.less" />
+    <None Include="HtmlClient\less\layouts.less" />
+    <None Include="HtmlClient\less\media.less" />
+    <None Include="HtmlClient\less\mixins.less" />
+    <None Include="HtmlClient\less\modals.less" />
+    <None Include="HtmlClient\less\navbar.less" />
+    <None Include="HtmlClient\less\navs.less" />
+    <None Include="HtmlClient\less\pager.less" />
+    <None Include="HtmlClient\less\pagination.less" />
+    <None Include="HtmlClient\less\popovers.less" />
+    <None Include="HtmlClient\less\progress-bars.less" />
+    <None Include="HtmlClient\less\reset.less" />
+    <None Include="HtmlClient\less\responsive-1200px-min.less" />
+    <None Include="HtmlClient\less\responsive-767px-max.less" />
+    <None Include="HtmlClient\less\responsive-768px-979px.less" />
+    <None Include="HtmlClient\less\responsive-navbar.less" />
+    <None Include="HtmlClient\less\responsive-utilities.less" />
+    <None Include="HtmlClient\less\responsive.less" />
+    <None Include="HtmlClient\less\scaffolding.less" />
+    <None Include="HtmlClient\less\sprites.less" />
+    <None Include="HtmlClient\less\tables.less" />
+    <None Include="HtmlClient\less\thumbnails.less" />
+    <None Include="HtmlClient\less\tooltip.less" />
+    <None Include="HtmlClient\less\type.less" />
+    <None Include="HtmlClient\less\utilities.less" />
+    <None Include="HtmlClient\less\variables.less" />
+    <None Include="HtmlClient\less\wells.less" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -101,6 +150,26 @@
       <Project>{f38bc9bc-9bc5-4dd1-8f70-9ecd4e17da12}</Project>
       <Name>Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="HtmlClient\css\bootstrap-responsive.css" />
+    <Content Include="HtmlClient\css\bootstrap-responsive.min.css" />
+    <Content Include="HtmlClient\css\bootstrap.css" />
+    <Content Include="HtmlClient\css\bootstrap.min.css" />
+    <Content Include="HtmlClient\css\style.css" />
+    <Content Include="HtmlClient\img\apple-touch-icon-114-precomposed.png" />
+    <Content Include="HtmlClient\img\apple-touch-icon-144-precomposed.png" />
+    <Content Include="HtmlClient\img\apple-touch-icon-57-precomposed.png" />
+    <Content Include="HtmlClient\img\apple-touch-icon-72-precomposed.png" />
+    <Content Include="HtmlClient\img\favicon.png" />
+    <Content Include="HtmlClient\img\glyphicons-halflings-white.png" />
+    <Content Include="HtmlClient\img\glyphicons-halflings.png" />
+    <Content Include="HtmlClient\index.html" />
+    <Content Include="HtmlClient\js\bootstrap.min.js" />
+    <Content Include="HtmlClient\js\html5shiv.js" />
+    <Content Include="HtmlClient\js\jquery.min.js" />
+    <Content Include="HtmlClient\js\less-1.3.3.min.js" />
+    <Content Include="HtmlClient\js\scripts.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
