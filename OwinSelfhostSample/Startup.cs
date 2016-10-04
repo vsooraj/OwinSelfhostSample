@@ -21,7 +21,7 @@ namespace OwinSelfhostSample
 
             appBuilder.UseWebApi(config);
 
-            const string rootFolder = @"..\..\HtmlClient";
+            const string rootFolder = @"..\..\Client";
             var fileSystem = new PhysicalFileSystem(rootFolder);
             var options = new FileServerOptions
             {
