@@ -21,7 +21,7 @@ namespace OwinSelfhostSample
 
             appBuilder.UseWebApi(config);
 
-            const string rootFolder = @"..\..\Client";
+            const string rootFolder = @"..\..\miGuardClient";
             var fileSystem = new PhysicalFileSystem(rootFolder);
             var options = new FileServerOptions
             {
@@ -33,8 +33,6 @@ namespace OwinSelfhostSample
             options.DefaultFilesOptions.DefaultFileNames = new[] { "index.html" };
             appBuilder.UseFileServer(options);
 
-            //http://blog.micic.ch/net/owin-and-razor-enabled-mvc-application-framework
         }
-
     }
 }

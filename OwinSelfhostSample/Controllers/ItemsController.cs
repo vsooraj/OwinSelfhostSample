@@ -11,7 +11,15 @@ namespace OwinSelfhostSample.Controllers
             {
                 new Item { itemId = 1, content="Lumia",encryptionKey="12345",encryptionProvider="sha256", MetaItem=new Dictionary<string, string>() { {"Lumia", "Lumia Emtatdata" } },requestType="GET",sourceEntity="Lumia Entity", sourceDevice = "Lumia" },
                 new Item { itemId = 2, content="Nexus",encryptionKey="12345",encryptionProvider="sha256",MetaItem= new Dictionary<string, string>(){ {"Nexus", "Nexus Emtatdata" } },requestType="POST",sourceEntity="Nexus Entity", sourceDevice = "Nexus"},
-                new Item { itemId = 3,content="iPhone",encryptionKey="12345",encryptionProvider="sha256",MetaItem= new Dictionary<string, string>(){ {"iPhone", "iPhone Emtatdata"} },requestType="PUT",sourceEntity="iPhone Entity", sourceDevice = "iPhone" }
+                new Item { itemId = 3,content="iPhone",encryptionKey="12345",encryptionProvider="sha256",MetaItem= new Dictionary<string, string>(){ {"iPhone", "iPhone Emtatdata"} },requestType="PUT",sourceEntity="iPhone Entity", sourceDevice = "iPhone" },
+                new Item { itemId = 4,content="iPhone2",encryptionKey="12345",encryptionProvider="sha256",MetaItem= new Dictionary<string, string>(){ {"iPhone", "iPhone Emtatdata"} },requestType="PUT",sourceEntity="iPhone Entity", sourceDevice = "iPhone" },
+                new Item { itemId = 5,content="iPhone3",encryptionKey="12345",encryptionProvider="sha256",MetaItem= new Dictionary<string, string>(){ {"iPhone", "iPhone Emtatdata"} },requestType="PUT",sourceEntity="iPhone Entity", sourceDevice = "iPhone" },
+                new Item { itemId = 6,content="iPhone4",encryptionKey="12345",encryptionProvider="sha256",MetaItem= new Dictionary<string, string>(){ {"iPhone", "iPhone Emtatdata"} },requestType="PUT",sourceEntity="iPhone Entity", sourceDevice = "iPhone" },
+                new Item { itemId = 7,content="iPhone5",encryptionKey="12345",encryptionProvider="sha256",MetaItem= new Dictionary<string, string>(){ {"iPhone", "iPhone Emtatdata"} },requestType="PUT",sourceEntity="iPhone Entity", sourceDevice = "iPhone" },
+                new Item { itemId = 8,content="iPhone6",encryptionKey="12345",encryptionProvider="sha256",MetaItem= new Dictionary<string, string>(){ {"iPhone", "iPhone Emtatdata"} },requestType="PUT",sourceEntity="iPhone Entity", sourceDevice = "iPhone" },
+                new Item { itemId = 9,content="iPhone7",encryptionKey="12345",encryptionProvider="sha256",MetaItem= new Dictionary<string, string>(){ {"iPhone", "iPhone Emtatdata"} },requestType="PUT",sourceEntity="iPhone Entity", sourceDevice = "iPhone" },
+                new Item { itemId = 10,content="iPhone8",encryptionKey="12345",encryptionProvider="sha256",MetaItem= new Dictionary<string, string>(){ {"iPhone", "iPhone Emtatdata"} },requestType="PUT",sourceEntity="iPhone Entity", sourceDevice = "iPhone" }
+
             };
         public IEnumerable<Item> Get()
         {

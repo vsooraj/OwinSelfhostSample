@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>mi Guard</title>
+
+    <!-- Style sheets -->
+    <link href="css/bootstrap.css" rel="stylesheet" />
+    <link href="css/app.css" rel="stylesheet" />
+
+    <!-- Library Scripts -->
+    <script src="js/angular.js"></script>
+    <script src="js/angular-resource.js"></script>
+    <script src="js/angular-ui-router.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.js"></script>
+
+    <!-- Application Script -->
+    <script src="app/app.js"></script>
+
+    <!-- Services -->
+    <script src="common/services/common.services.js"></script>
+    <script src="common/services/itemResource.js"></script>
+    <script src="common/services/operationResource.js"></script>
+
+
+    <!-- Item Controllers -->
+    <script src="app/items/itemListCtrl.js"></script>
+
+    <!-- Operation Controllers -->
+    <script src="app/operations/operationListCtrl.js"></script>
+</head>
+
+<body ng-app="miGuard">
+    <nav class="navbar navbar-inverse">
+        <div id="navBar" class="container">
+            <a class="navbar-brand"
+               ui-sref="home"><img src="images/ivedix-nameplate.png" width="132" height="auto" alt="miGuard" /> </a>
+            <div class="navbar-header">
+                <button type="button"
+                        class="navbar-toggle"
+                        data-toggle="collapse"
+                        data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav pull-right">
+                    <li><a ui-sref="itemList">Items</a></li>
+                    <li><a ui-sref="operationList">Operations</a></li>                   
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div ui-view>
+           
+        </div>
+    </div>
+</body>
+
+</html>

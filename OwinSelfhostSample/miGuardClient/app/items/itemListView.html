@@ -1,0 +1,31 @@
+<div class="panel panel-success">
+    <div class="panel-heading item_title"
+         style="font-size:large">
+        Items
+    </div>
+
+    <div class="panel-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <td>Item Id</td>
+                    <td>Request Type</td>
+                    <td>Encryption Provider</td>
+                    <td>Encryption Key</td>
+                    <td>Source Device</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in vm.items">
+                    <td>
+                        {{ item.itemId}}
+                    </td>
+                    <td>{{ item.requestType}}</td>
+                    <td>{{ item.encryptionProvider }}</td>
+                    <td>{{ item.encryptionKey }}</td>
+                    <td>{{ item.sourceDevice  }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

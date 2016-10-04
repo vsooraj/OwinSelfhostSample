@@ -141,6 +141,9 @@
     <None Include="Client\less\utilities.less" />
     <None Include="Client\less\variables.less" />
     <None Include="Client\less\wells.less" />
+    <None Include="miGuardClient\fonts\glyphicons-halflings-regular.eot" />
+    <None Include="miGuardClient\fonts\glyphicons-halflings-regular.ttf" />
+    <None Include="miGuardClient\fonts\glyphicons-halflings-regular.woff" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -171,6 +174,27 @@
     <Content Include="Client\js\jquery.min.js" />
     <Content Include="Client\js\less-1.3.3.min.js" />
     <Content Include="Client\js\scripts.js" />
+    <Content Include="miGuardClient\app\app.js" />
+    <Content Include="miGuardClient\app\items\itemListCtrl.js" />
+    <Content Include="miGuardClient\app\items\itemListView.html" />
+    <Content Include="miGuardClient\app\operations\operationListView.html" />
+    <Content Include="miGuardClient\app\operations\operationListCtrl.js" />
+    <Content Include="miGuardClient\app\welcomeView.html" />
+    <Content Include="miGuardClient\common\services\common.services.js" />
+    <Content Include="miGuardClient\common\services\itemResource.js" />
+    <Content Include="miGuardClient\common\services\operationResource.js" />
+    <Content Include="miGuardClient\css\app.css" />
+    <Content Include="miGuardClient\css\bootstrap-lumen.css" />
+    <Content Include="miGuardClient\css\bootstrap.css" />
+    <Content Include="miGuardClient\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="miGuardClient\images\HomepageTeaser.jpg" />
+    <Content Include="miGuardClient\images\ivedix-nameplate.png" />
+    <Content Include="miGuardClient\index.html" />
+    <Content Include="miGuardClient\js\angular-resource.js" />
+    <Content Include="miGuardClient\js\angular-ui-router.js" />
+    <Content Include="miGuardClient\js\angular.js" />
+    <Content Include="miGuardClient\js\bootstrap.js" />
+    <Content Include="miGuardClient\js\jquery.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

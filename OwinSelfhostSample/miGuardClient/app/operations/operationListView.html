@@ -1,0 +1,31 @@
+﻿<div class="panel panel-success">
+    <div class="panel-heading item_title"
+         style="font-size:large">
+        Operations
+    </div>
+
+    <div class="panel-body">
+        <table class="table" ng-controller="OperationListCtrl as vm">
+            <thead>
+                <tr>
+                    <td>operationId</td>
+                    <td>required</td>
+                    <td>required</td>
+                    <td>required</td>
+                    <td>required</td>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in vm.operations">
+                    <td>{{ item.operationId}}</td>
+                    <td>{{ item.required}}</td>
+                    <td>{{ item.required}}</td>
+                    <td>{{ item.required}}</td>
+                    <td>{{ item.required}}</td>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
