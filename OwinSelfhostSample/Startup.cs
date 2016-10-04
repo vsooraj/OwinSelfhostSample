@@ -30,9 +30,10 @@ namespace OwinSelfhostSample
             };
             //options.StaticFileOptions.FileSystem = physicalFileSystem;
             options.StaticFileOptions.ServeUnknownFileTypes = true;
-            options.DefaultFilesOptions.DefaultFileNames = new[] { "index.html" }; //put whatever default pages you like here
+            options.DefaultFilesOptions.DefaultFileNames = new[] { "index.html" };
             appBuilder.UseFileServer(options);
-            appBuilder.UseFileServer(options);
+
+            //http://blog.micic.ch/net/owin-and-razor-enabled-mvc-application-framework
         }
 
     }
