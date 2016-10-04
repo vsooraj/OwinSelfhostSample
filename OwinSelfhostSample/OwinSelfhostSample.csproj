@@ -187,6 +187,7 @@
     <Content Include="miGuardClient\css\bootstrap-lumen.css" />
     <Content Include="miGuardClient\css\bootstrap.css" />
     <Content Include="miGuardClient\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="miGuardClient\images\favicon.ico" />
     <Content Include="miGuardClient\images\HomepageTeaser.jpg" />
     <Content Include="miGuardClient\images\ivedix-nameplate.png" />
     <Content Include="miGuardClient\index.html" />
