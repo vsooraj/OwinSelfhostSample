@@ -1,7 +1,7 @@
 (function () {
     "use strict";
-    var app = angular.module("miGuard", ["common.services", "ui.router"]);
-
+    var app = angular.module("miGuard", ["common.services", "ui.router", "angularUtils.directives.dirPagination"]);
+  
     app.config(["$stateProvider",
            "$urlRouterProvider",
            function ($stateProvider, $urlRouterProvider) {

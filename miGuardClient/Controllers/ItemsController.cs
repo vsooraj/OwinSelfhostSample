@@ -3,6 +3,7 @@ using miGuardClient.Utilities;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -22,14 +23,44 @@ namespace miGuardClient.Controllers
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
         // GET: Item
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(string sortOrder, string searchString, int? pageNo, int? pageSize)
         {
+            ViewBag.RequestTypeSortParm = String.IsNullOrEmpty(sortOrder) ? "requestType_desc" : "";
+
             HttpResponseMessage responseMessage = await client.GetAsync(client.BaseAddress);
             if (responseMessage.IsSuccessStatusCode)
             {
                 var responseData = responseMessage.Content.ReadAsStringAsync().Result;
 
                 var items = JsonConvert.DeserializeObject<List<Item>>(responseData);
+
+                switch (sortOrder)
+                {
+                    case "requestType_desc":
+                        items = items.OrderByDescending(s => s.requestType).ToList();
+                        break;
+                    //case "requestType_desc":
+                    //    items = items.OrderByDescending(s => s.requestType).ToList();
+                    //    break;
+                    //case "requestType_desc":
+                    //    items = items.OrderByDescending(s => s.requestType).ToList();
+                    //    break;
+                    //case "requestType_desc":
+                    //    items = items.OrderByDescending(s => s.requestType).ToList();
+                    //    break;
+                    //case "requestType_desc":
+                    //    items = items.OrderByDescending(s => s.requestType).ToList();
+                    //    break;
+                    //case "requestType_desc":
+                    //    items = items.OrderByDescending(s => s.requestType).ToList();
+                    //    break;
+                    default:
+                        items = items.OrderBy(s => s.requestType).ToList();
+                        break;
+                }
+                int temPageSize = 3;
+                temPageSize = pageSize.HasValue ? pageSize.Value : temPageSize;
+                items = items.Take(temPageSize).Skip(1).ToList();
 
                 return View(items);
             }

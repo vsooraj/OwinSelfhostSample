@@ -5,7 +5,8 @@
     </div>
 
     <div class="panel-body">
-        <table class="table" ng-controller="OperationListCtrl as vm">
+        <label>Search: <input ng-model="searchText"></label>
+        <table class="table">
             <thead>
                 <tr>
                     <td>operationId</td>
@@ -17,7 +18,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="item in vm.operations">
+                <tr ng-repeat="item in vm.operations  | filter:searchText">
                     <td>{{ item.operationId}}</td>
                     <td>{{ item.required}}</td>
                     <td>{{ item.required}}</td>
@@ -27,5 +28,24 @@
                 </tr>
             </tbody>
         </table>
+        <nav aria-label="Page navigation">
+            <ul class="pagination pagination-sm">
+                <li>
+                    <a href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li><a href="#">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">4</a></li>
+                <li><a href="#">5</a></li>
+                <li>
+                    <a href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
     </div>
 </div>

@@ -1,4 +1,6 @@
-﻿namespace Common
+﻿using System.Collections.Generic;
+
+namespace Common
 {
     public class Item
     {
@@ -9,7 +11,12 @@
         public string sourceDevice { get; set; }
         public string sourceEntity { get; set; }
         public string content { get; set; }
-        public string metadata { get; set; }
+        public Dictionary<string, string> MetaItem { get; set; }
 
+    }
+    public class MetaItem
+    {
+        public string Key { get; set; }
+        public string Value { get; set; }
     }
 }

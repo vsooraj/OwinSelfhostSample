@@ -195,6 +195,7 @@
     <Content Include="miGuardClient\js\angular-ui-router.js" />
     <Content Include="miGuardClient\js\angular.js" />
     <Content Include="miGuardClient\js\bootstrap.js" />
+    <Content Include="miGuardClient\js\dirPagination.js" />
     <Content Include="miGuardClient\js\jquery.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

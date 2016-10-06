@@ -11,8 +11,8 @@ namespace OwinSelfhostSample.Controllers
         private static List<Operation> _Db = new List<Operation>
             {
                 new Operation { operationId= 1, required=true, type=new string[] {"1","2" } },
-                new Operation { operationId =2, required=true,type=new string[] {"1","2" } },
-                new Operation { operationId =3, required=true ,type=new string[] {"1","2" }}
+                new Operation { operationId =2, required=false,type=new string[] {"3","4" } },
+                new Operation { operationId =3, required=false ,type=new string[] {"5","6" }}
             };
         public IEnumerable<Operation> Get()
         {

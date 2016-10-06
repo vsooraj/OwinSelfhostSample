@@ -5,21 +5,37 @@
     </div>
 
     <div class="panel-body">
+        <label>Search: <input ng-model="searchText"></label>
+       
         <table class="table">
             <thead>
                 <tr>
-                    <td>Item Id</td>
-                    <td>Request Type</td>
-                    <td>Encryption Provider</td>
-                    <td>Encryption Key</td>
-                    <td>Source Device</td>
+                    <th ng-click="vm.sort('itemId')">
+                        Item Id
+                        <span class="glyphicon sort-icon" ng-show="vm.sortKey=='itemId'" ng-class="{'glyphicon-chevron-up':vm.reverse,'glyphicon-chevron-down':!vm.reverse}"></span>
+                    </th>
+                    <th ng-click="vm.sort('requestType')">
+                        Request Type<span class="glyphicon sort-icon" ng-show="vm.sortKey=='requestType'" ng-class="{'glyphicon-chevron-up':vm.reverse,'glyphicon-chevron-down':!vm.reverse}"></span>
+                    </th>
+                    <th ng-click="vm.sort('encryptionProvider')">
+                        Encryption Provider
+                        <span class="glyphicon sort-icon" ng-show="vm.sortKey=='encryptionProvider'" ng-class="{'glyphicon-chevron-up':vm.reverse,'glyphicon-chevron-down':!vm.reverse}"></span>
+                    </th>
+                    <th ng-click="vm.sort('encryptionKey')">
+                        Encryption Key
+                        <span class="glyphicon sort-icon" ng-show="vm.sortKey=='encryptionKey'" ng-class="{'glyphicon-chevron-up':vm.reverse,'glyphicon-chevron-down':!vm.reverse}"></span>
+                    </th>
+                    <th ng-click="vm.sort('sourceDevice')">
+                        Source Device
+                        <span class="glyphicon sort-icon" ng-show="vm.sortKey=='sourceDevice'" ng-class="{'glyphicon-chevron-up':vm.reverse,'glyphicon-chevron-down':!vm.reverse}"></span>
+                    </th>
                 </tr>
+
+
             </thead>
             <tbody>
-                <tr ng-repeat="item in vm.items">
-                    <td>
-                        {{ item.itemId}}
-                    </td>
+                <tr dir-paginate="item in vm.items | orderBy:vm.sortKey:vm.reverse | filter:searchText | itemsPerPage:10">
+                    <td>{{ item.itemId}}</td>
                     <td>{{ item.requestType}}</td>
                     <td>{{ item.encryptionProvider }}</td>
                     <td>{{ item.encryptionKey }}</td>
@@ -27,5 +43,13 @@
                 </tr>
             </tbody>
         </table>
-    </div>
+        <br>
+        <nav aria-label="Page navigation" class="position-center">
+            <dir-pagination-controls max-size="5"  
+                                     direction-links="true"
+                                     boundary-links="true">
+            </dir-pagination-controls>
+        </nav>
+
+</div>
 </div>
