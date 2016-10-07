@@ -5,6 +5,7 @@ using System.Web.Http;
 
 namespace OwinSelfhostSample.Controllers
 {
+    [RoutePrefix("api/Companies")]
     public class CompaniesController : ApiController
     {
         private static List<Company> _Db = new List<Company>
@@ -13,10 +14,14 @@ namespace OwinSelfhostSample.Controllers
                 new Company { Id = 2, Name = "Google" },
                 new Company { Id = 3, Name = "Apple" }
             };
+        // GET api/Companies
+        [Route("")]
         public IEnumerable<Company> Get()
         {
             return _Db;
         }
+        // GET api/Companies/5
+        [Route("{id:int}")]
         public Company Get(int id)
         {
             var company = _Db.FirstOrDefault(c => c.Id == id);
@@ -27,6 +32,8 @@ namespace OwinSelfhostSample.Controllers
             }
             return company;
         }
+        // POST api/Companies
+        [Route("")]
         public IHttpActionResult Post(Company company)
         {
             if (company == null)
@@ -43,6 +50,8 @@ namespace OwinSelfhostSample.Controllers
             _Db.Add(company);
             return Ok();
         }
+        // PUT api/Company
+        [Route("")]
         public IHttpActionResult Put(Company company)
         {
             if (company == null)
@@ -59,6 +68,8 @@ namespace OwinSelfhostSample.Controllers
             existing.Name = company.Name;
             return Ok();
         }
+        // DELETE api/Companies
+        [Route("{id:int}")]
         public IHttpActionResult Delete(int id)
         {
             var company = _Db.FirstOrDefault(c => c.Id == id);

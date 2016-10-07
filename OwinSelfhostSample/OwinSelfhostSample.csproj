@@ -93,6 +93,7 @@
     <Compile Include="Controllers\CompaniesController.cs" />
     <Compile Include="Controllers\ItemsController.cs" />
     <Compile Include="Controllers\OperationsController.cs" />
+    <Compile Include="Models\ItemRepository.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -146,9 +147,7 @@
     <None Include="miGuardClient\fonts\glyphicons-halflings-regular.woff" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{f38bc9bc-9bc5-4dd1-8f70-9ecd4e17da12}</Project>

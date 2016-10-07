@@ -2,11 +2,21 @@
     <div class="panel-heading item_title"
          style="font-size:large">
         Items
+        <div class="col-lg-4 pull-right">
+            <input type="text" class="form-control" placeholder="Search" ng-model="searchText" >
+            
+            <button type="button" class="btn btn-default placeholder-search-icon" aria-label="Left Align" ng-click="vm.navigate(newPageNumber)">
+                <i class="glyphicon glyphicon-search" aria-hidden="true"></i>
+            </button>
+        </div>
     </div>
 
+
+
     <div class="panel-body">
-        <label>Search: <input ng-model="searchText"></label>
-       
+        <!--<label class=" pull-right">Search: <input ng-model="searchText"></label>-->
+
+
         <table class="table">
             <thead>
                 <tr>
@@ -34,7 +44,7 @@
 
             </thead>
             <tbody>
-                <tr dir-paginate="item in vm.items | orderBy:vm.sortKey:vm.reverse | filter:searchText | itemsPerPage:10">
+                <tr dir-paginate="item in vm.items | orderBy:vm.sortKey:vm.reverse  | itemsPerPage:10" total-items="vm.totalCount" current-page="vm.currentPage">
                     <td>{{ item.itemId}}</td>
                     <td>{{ item.requestType}}</td>
                     <td>{{ item.encryptionProvider }}</td>
@@ -43,13 +53,13 @@
                 </tr>
             </tbody>
         </table>
-        <br>
+        <hr />
         <nav aria-label="Page navigation" class="position-center">
-            <dir-pagination-controls max-size="5"  
-                                     direction-links="true"
-                                     boundary-links="true">
+            <dir-pagination-controls direction-links="true"
+                                     boundary-links="true" on-page-change="vm.navigate(newPageNumber)">
+
             </dir-pagination-controls>
         </nav>
-
-</div>
+        <!--<div class="alert alert-info " role="alert">{{ vm.status.message }}</div>-->
+    </div>
 </div>

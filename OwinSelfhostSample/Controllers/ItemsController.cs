@@ -1,43 +1,79 @@
 ﻿using Common;
-using System.Collections.Generic;
+using OwinSelfhostSample.Models;
+using System;
 using System.Linq;
 using System.Web.Http;
 
 namespace OwinSelfhostSample.Controllers
 {
+    [RoutePrefix("api/Items")]
     public class ItemsController : ApiController
     {
-        private static List<Item> _Db = new List<Item>
-            {
-                new Item { itemId = 1, content="Lumia",encryptionKey="12345",encryptionProvider="sha256", MetaItem=new Dictionary<string, string>() { {"Lumia", "Lumia Emtatdata" } },requestType="GET",sourceEntity="Lumia Entity", sourceDevice = "Lumia" },
-                new Item { itemId = 2, content="Nexus",encryptionKey="12345",encryptionProvider="sha256",MetaItem= new Dictionary<string, string>(){ {"Nexus", "Nexus Emtatdata" } },requestType="POST",sourceEntity="Nexus Entity", sourceDevice = "Nexus"},
-                new Item { itemId = 3,content="iPhone 3",encryptionKey="12345",encryptionProvider="sha256",MetaItem= new Dictionary<string, string>(){ {"iPhone", "iPhone Emtatdata"} },requestType="PUT",sourceEntity="iPhone Entity", sourceDevice = "iPhone" },
-                new Item { itemId = 4,content="iPhone 4",encryptionKey="12345",encryptionProvider="sha256",MetaItem= new Dictionary<string, string>(){ {"iPhone", "iPhone Emtatdata"} },requestType="PUT",sourceEntity="iPhone Entity", sourceDevice = "iPhone" },
-                new Item { itemId = 5,content="iPhone 5",encryptionKey="12345",encryptionProvider="sha256",MetaItem= new Dictionary<string, string>(){ {"iPhone", "iPhone Emtatdata"} },requestType="PUT",sourceEntity="iPhone Entity", sourceDevice = "iPhone" },
-                new Item { itemId = 6,content="iPhone 6",encryptionKey="12345",encryptionProvider="sha256",MetaItem= new Dictionary<string, string>(){ {"iPhone", "iPhone Emtatdata"} },requestType="PUT",sourceEntity="iPhone Entity", sourceDevice = "iPhone" },
-                new Item { itemId = 7,content="iPhone 7",encryptionKey="12345",encryptionProvider="sha256",MetaItem= new Dictionary<string, string>(){ {"iPhone", "iPhone Emtatdata"} },requestType="PUT",sourceEntity="iPhone Entity", sourceDevice = "iPhone" },
-                new Item { itemId = 8,content="iPhone 8",encryptionKey="12345",encryptionProvider="sha256",MetaItem= new Dictionary<string, string>(){ {"iPhone", "iPhone Emtatdata"} },requestType="PUT",sourceEntity="iPhone Entity", sourceDevice = "iPhone" },
-                new Item { itemId = 9,content="iPhone 9",encryptionKey="12345",encryptionProvider="sha256",MetaItem= new Dictionary<string, string>(){ {"iPhone", "iPhone Emtatdata"} },requestType="PUT",sourceEntity="iPhone Entity", sourceDevice = "iPhone" },
-                new Item { itemId = 10,content="iPhone10",encryptionKey="12345",encryptionProvider="sha256",MetaItem= new Dictionary<string, string>(){ {"iPhone", "iPhone Emtatdata"} },requestType="PUT",sourceEntity="iPhone Entity", sourceDevice = "iPhone" },
-                new Item { itemId = 11,content="iPhone11",encryptionKey="12345",encryptionProvider="sha256",MetaItem= new Dictionary<string, string>(){ {"iPhone", "iPhone Emtatdata"} },requestType="PUT",sourceEntity="iPhone Entity", sourceDevice = "iPhone" },
-                new Item { itemId = 12,content="iPhone12",encryptionKey="12345",encryptionProvider="sha256",MetaItem= new Dictionary<string, string>(){ {"iPhone", "iPhone Emtatdata"} },requestType="PUT",sourceEntity="iPhone Entity", sourceDevice = "iPhone" },
-                new Item { itemId = 13,content="iPhone13",encryptionKey="12345",encryptionProvider="sha256",MetaItem= new Dictionary<string, string>(){ {"iPhone", "iPhone Emtatdata"} },requestType="PUT",sourceEntity="iPhone Entity", sourceDevice = "iPhone" },
-                new Item { itemId = 14,content="iPhone14",encryptionKey="12345",encryptionProvider="sha256",MetaItem= new Dictionary<string, string>(){ {"iPhone", "iPhone Emtatdata"} },requestType="PUT",sourceEntity="iPhone Entity", sourceDevice = "iPhone" }
 
-            };
-        public IEnumerable<Item> Get()
+        private ItemRepository itemRepository;
+        public ItemsController()
         {
-            return _Db;
+            itemRepository = new ItemRepository();
         }
-        public Item Get(int id)
+        // GET: api/Items
+        [Route("")]
+        public IHttpActionResult Get()
         {
-            var item = _Db.FirstOrDefault(c => c.itemId == id);
+            var items = this.itemRepository.Items.ToList();
+
+            return Ok(items);
+        }
+        // GET: api/Items/5
+        [Route("{id:int}")]
+        public IHttpActionResult Get(int id)
+        {
+            var item = itemRepository.Items.FirstOrDefault(c => c.itemId == id);
             if (item == null)
             {
                 throw new HttpResponseException(
                     System.Net.HttpStatusCode.NotFound);
             }
-            return item;
+            return Ok(item);
+        }
+        // GET: api/Items/Name
+        [Route("{name}")]
+        public IHttpActionResult Get(string name)
+        {
+            var item = this.itemRepository.Items.FirstOrDefault(c => c.sourceDevice.ToLower() == name.ToLower());
+            if (item == null)
+            {
+                throw new HttpResponseException(
+                    System.Net.HttpStatusCode.NotFound);
+            }
+            return Ok(item);
+        }
+        // GET: api/items/pageSize/pageNumber/orderBy(optional) 
+        [Route("{pageSize:int}/{pageNumber:int}/{filterBy:alpha?}/{orderBy:alpha?}")]
+        public IHttpActionResult Get(int pageSize, int pageNumber, string filterBy = "", string orderBy = "")
+        {
+
+            var totalCount = itemRepository.Items.Count();
+            var totalPages = Math.Ceiling((double)totalCount / pageSize);
+            //if (!String.IsNullOrEmpty(filterBy))
+            //{
+            var items = itemRepository.Items.Where(s => s.sourceDevice.Contains(filterBy)
+                                   || s.requestType.Contains(filterBy)).ToList();
+
+
+            items = items.OrderBy(r => r.itemId).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+
+
+            var result = new
+            {
+                TotalCount = totalCount,
+                TotalPages = totalPages,
+                Items = items
+            };
+            return Ok(result);
+            //}
+            //return Ok();
+
+
         }
         public IHttpActionResult Post(Item item)
         {
@@ -45,14 +81,14 @@ namespace OwinSelfhostSample.Controllers
             {
                 return BadRequest("Argument Null");
             }
-            var companyExists = _Db.Any(c => c.itemId == item.itemId);
+            var itemExists = itemRepository.Items.Any(c => c.itemId == item.itemId);
 
-            if (companyExists)
+            if (itemExists)
             {
                 return BadRequest("Exists");
             }
 
-            _Db.Add(item);
+            //itemRepository.Items.Add(item);
             return Ok();
         }
         public IHttpActionResult Put(Item item)
@@ -61,7 +97,7 @@ namespace OwinSelfhostSample.Controllers
             {
                 return BadRequest("Argument Null");
             }
-            var existing = _Db.FirstOrDefault(c => c.itemId == item.itemId);
+            var existing = itemRepository.Items.FirstOrDefault(c => c.itemId == item.itemId);
 
             if (existing == null)
             {
@@ -73,12 +109,12 @@ namespace OwinSelfhostSample.Controllers
         }
         public IHttpActionResult Delete(int id)
         {
-            var company = _Db.FirstOrDefault(c => c.itemId == id);
+            var company = itemRepository.Items.FirstOrDefault(c => c.itemId == id);
             if (company == null)
             {
                 return NotFound();
             }
-            _Db.Remove(company);
+            //itemRepository.Items.Remove(company);
             return Ok();
         }
     }

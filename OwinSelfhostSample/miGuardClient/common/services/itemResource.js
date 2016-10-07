@@ -8,7 +8,7 @@
                  itemResource]);
 
     function itemResource($resource) {
-        return $resource("/api/items/:itemId")
+        return $resource("/api/items/:pageSize/:pageNumber/:filterBy/:orderBy", { pageSize: '@pageSize', pageNumber: '@pageNumber', filterBy: '@filterBy', orderBy: '@orderBy' });       
     }
 
 }());

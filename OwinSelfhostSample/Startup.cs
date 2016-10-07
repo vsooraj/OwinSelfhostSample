@@ -1,5 +1,6 @@
 ﻿using Microsoft.Owin.FileSystems;
 using Microsoft.Owin.StaticFiles;
+using Newtonsoft.Json.Serialization;
 using Owin;
 using System.Web.Http;
 
@@ -11,15 +12,20 @@ namespace OwinSelfhostSample
         // parameter in the WebApp.Start method.
         public void Configuration(IAppBuilder appBuilder)
         {
+
             // Configure Web API for self-host. 
             HttpConfiguration config = new HttpConfiguration();
-            config.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
-            );
-
+            config.MapHttpAttributeRoutes();
+            //config.Routes.MapHttpRoute(
+            //    name: "DefaultApi",
+            //    routeTemplate: "api/{controller}/{id}",
+            //    defaults: new { id = RouteParameter.Optional }
+            //);
+            // Use camelCase for JSON data. 
+            config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            //config.EnsureInitialized();
             appBuilder.UseWebApi(config);
+
 
             const string rootFolder = @"..\..\miGuardClient";
             var fileSystem = new PhysicalFileSystem(rootFolder);

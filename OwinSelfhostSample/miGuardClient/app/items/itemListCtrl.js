@@ -8,23 +8,39 @@
     function ItemListCtrl(itemResource) {      
 
         var vm = this;
-        itemResource.query(function (data) {
-            //alert(data);
-            vm.items = data;           
-        });   
-
+        vm.status = {
+            type: "info",
+            message: "ready",
+            busy: false
+        };
         vm.sortKey = 'itemId';
         vm.reverse = true;
         vm.sort = function (keyname) {
-          //  alert(keyname);
             vm.sortKey = keyname;   //set the sortKey to the param passed
             vm.reverse = !vm.reverse; //if true make it false and vice versa
         }
-        //vm.showImage = false;
+        vm.currentPage = 0;
+        vm.searchText = "";
+        vm.navigate = navigate;
+        activate();
 
-        //vm.toggleImage = function () {
-        //    vm.showImage = !vm.showImage;
-        //}
+        function activate() {
+            //if this is the first activation of the controller load the first page
+            if (vm.currentPage === 0) {
+                navigate(1);
+            }
+        }
+        function navigate(pageNumber) {
+            vm.status.busy = true;
+            vm.status.message = "loading records";
+            vm.currentPage = pageNumber;
+            itemResource.get({ pageSize: '10', pageNumber: pageNumber, filterBy: '', orderBy: '' }, function (data) {
+                console.log(data);
+                vm.items = data.items;
+                vm.totalCount = data.totalCount;
+            });
+        }
        
+      
     }
 }());
