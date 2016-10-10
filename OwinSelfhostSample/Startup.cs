@@ -12,7 +12,6 @@ namespace OwinSelfhostSample
         // parameter in the WebApp.Start method.
         public void Configuration(IAppBuilder appBuilder)
         {
-
             // Configure Web API for self-host. 
             HttpConfiguration config = new HttpConfiguration();
             config.MapHttpAttributeRoutes();
@@ -21,11 +20,8 @@ namespace OwinSelfhostSample
             //    routeTemplate: "api/{controller}/{id}",
             //    defaults: new { id = RouteParameter.Optional }
             //);
-            // Use camelCase for JSON data. 
             config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-            //config.EnsureInitialized();
             appBuilder.UseWebApi(config);
-
 
             const string rootFolder = @"..\..\miGuardClient";
             var fileSystem = new PhysicalFileSystem(rootFolder);

@@ -9,7 +9,6 @@ namespace OwinSelfhostSample.Controllers
     [RoutePrefix("api/Items")]
     public class ItemsController : ApiController
     {
-
         private ItemRepository itemRepository;
         public ItemsController()
         {
@@ -54,10 +53,12 @@ namespace OwinSelfhostSample.Controllers
 
             var totalCount = itemRepository.Items.Count();
             var totalPages = Math.Ceiling((double)totalCount / pageSize);
-            //if (!String.IsNullOrEmpty(filterBy))
-            //{
-            var items = itemRepository.Items.Where(s => s.sourceDevice.Contains(filterBy)
-                                   || s.requestType.Contains(filterBy)).ToList();
+            if (!String.IsNullOrEmpty(filterBy))
+            {
+                filterBy = filterBy.ToLower();
+            }
+            var items = itemRepository.Items.Where(s => s.sourceDevice.ToLower().Contains(filterBy)
+                               || s.requestType.ToLower().Contains(filterBy)).ToList();
 
 
             items = items.OrderBy(r => r.itemId).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
@@ -70,8 +71,7 @@ namespace OwinSelfhostSample.Controllers
                 Items = items
             };
             return Ok(result);
-            //}
-            //return Ok();
+
 
 
         }

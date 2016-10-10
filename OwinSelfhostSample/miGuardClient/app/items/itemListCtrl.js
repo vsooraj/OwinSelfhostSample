@@ -22,6 +22,7 @@
         vm.currentPage = 0;
         vm.searchText = "";
         vm.navigate = navigate;
+     
         activate();
 
         function activate() {
@@ -30,16 +31,21 @@
                 navigate(1);
             }
         }
-        function navigate(pageNumber) {
+        function navigate(pageNumber) {          
+            if (typeof (pageNumber) == "undefined") {
+                pageNumber = vm.currentPage;
+            }          
             vm.status.busy = true;
             vm.status.message = "loading records";
             vm.currentPage = pageNumber;
-            itemResource.get({ pageSize: '10', pageNumber: pageNumber, filterBy: '', orderBy: '' }, function (data) {
+            itemResource.get({ pageSize: '10', pageNumber: pageNumber, filterBy: vm.searchText, orderBy: '' }, function (data) {
                 console.log(data);
                 vm.items = data.items;
                 vm.totalCount = data.totalCount;
             });
         }
+
+      
        
       
     }
