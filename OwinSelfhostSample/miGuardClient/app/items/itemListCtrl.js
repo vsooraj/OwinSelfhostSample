@@ -39,7 +39,7 @@
                 pageNumber = vm.currentPage;
             }
             if (vm.searchText == "") {
-                vm.searchText = "search"
+                vm.searchText = "Search"
             }
             vm.status.busy = true;
             vm.status.message = "loading records";

@@ -53,7 +53,7 @@ namespace OwinSelfhostSample.Controllers
             var totalCount = itemRepository.Items.Count();
             var totalPages = Math.Ceiling((double)totalCount / pageSize);
             var items = itemRepository.Items.ToList();
-            if (!String.IsNullOrWhiteSpace(filterBy) && filterBy != "search")
+            if (!String.IsNullOrWhiteSpace(filterBy) && filterBy != "Search")
             {
                 filterBy = filterBy.ToLower();
                 items = itemRepository.Items.Where(s => s.sourceDevice.ToLower().Contains(filterBy)
@@ -72,8 +72,6 @@ namespace OwinSelfhostSample.Controllers
                 Items = items
             };
             return Ok(result);
-
-
 
         }
         public IHttpActionResult Post(Item item)
