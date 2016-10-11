@@ -44,7 +44,7 @@
 
             </thead>
             <tbody>
-                <tr dir-paginate="item in vm.items | orderBy:vm.sortKey:vm.reverse  | itemsPerPage:10" total-items="vm.totalCount" current-page="vm.currentPage">
+                <tr dir-paginate="item in vm.items  | itemsPerPage:10" total-items="vm.totalCount" current-page="vm.currentPage">
                     <td>{{ item.itemId}}</td>
                     <td>{{ item.requestType}}</td>
                     <td>{{ item.encryptionProvider }}</td>

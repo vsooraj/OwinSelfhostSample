@@ -18,6 +18,9 @@
         vm.sort = function (keyname) {
             vm.sortKey = keyname;   //set the sortKey to the param passed
             vm.reverse = !vm.reverse; //if true make it false and vice versa
+            //alert(vm.sortKey);
+            //alert(vm.reverse);
+            navigate(vm.currentPage);
         }
         vm.currentPage = 0;
         vm.searchText = "";
@@ -34,19 +37,20 @@
         function navigate(pageNumber) {          
             if (typeof (pageNumber) == "undefined") {
                 pageNumber = vm.currentPage;
-            }          
+            }
+            if (vm.searchText == "") {
+                vm.searchText = "search"
+            }
             vm.status.busy = true;
             vm.status.message = "loading records";
-            vm.currentPage = pageNumber;
-            itemResource.get({ pageSize: '10', pageNumber: pageNumber, filterBy: vm.searchText, orderBy: '' }, function (data) {
+            vm.currentPage = pageNumber;         
+         
+            itemResource.get({ pageSize: '10', pageNumber: pageNumber, filterBy: vm.searchText, orderBy:vm.sortKey, reverse: vm.reverse }, function (data) {
                 console.log(data);
                 vm.items = data.items;
                 vm.totalCount = data.totalCount;
             });
         }
-
-      
-       
       
     }
 }());

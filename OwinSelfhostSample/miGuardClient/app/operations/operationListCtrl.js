@@ -7,14 +7,48 @@
 
     function OperationListCtrl(operationResource) {
         var vm = this;
-        operationResource.query(function (data) {
-            vm.operations = data;
-        });       
 
-        vm.showImage = false;
-
-        vm.toggleImage = function () {
-            vm.showImage = !vm.showImage;
+        vm.status = {
+            type: "info",
+            message: "ready",
+            busy: false
+        };
+        vm.sortKey = 'operationId';
+        vm.reverse = true;
+        vm.sort = function (keyname) {
+            vm.sortKey = keyname;   //set the sortKey to the param passed
+            vm.reverse = !vm.reverse; //if true make it false and vice versa
         }
+        vm.currentPage = 0;
+        vm.searchText = "";
+        vm.navigate = navigate;
+
+        activate();
+
+        function activate() {
+            //if this is the first activation of the controller load the first page
+            if (vm.currentPage === 0) {
+                navigate(1);
+            }
+        }
+        function navigate(pageNumber) {
+            if (typeof (pageNumber) == "undefined") {
+                pageNumber = vm.currentPage;
+            }
+            vm.status.busy = true;
+            vm.status.message = "loading records";
+            vm.currentPage = pageNumber;           
+            operationResource.get({ pageSize: '10', pageNumber: pageNumber, filterBy: vm.searchText, orderBy: '' }, function (data) {
+                console.log(data);
+                vm.operations = data.operations;
+                vm.totalCount = data.totalCount;
+            });
+        }
+
+        //operationResource.query(function (data) {
+        //    vm.operations = data;
+        //});       
+
+      
     }
 }());

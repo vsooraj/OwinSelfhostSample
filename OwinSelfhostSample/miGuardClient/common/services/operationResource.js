@@ -7,8 +7,11 @@
                 ["$resource",
                  operationResource]);
 
+    //function operationResource($resource) {
+    //    return $resource("/api/operations/:operationId")
+    //}
     function operationResource($resource) {
-        return $resource("/api/operations/:operationId")
+        return $resource("/api/operations/:pageSize/:pageNumber/:filterBy/:orderBy", { pageSize: '@pageSize', pageNumber: '@pageNumber', filterBy: '@filterBy', orderBy: '@orderBy' });
     }
 
 }());
