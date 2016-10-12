@@ -35,7 +35,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr dir-paginate="item in vm.operations | orderBy:vm.sortKey:vm.reverse  | itemsPerPage:10 "
+                <tr dir-paginate="item in vm.operations  | itemsPerPage:10 "
                      total-items="vm.totalCount" current-page="vm.currentPage" >
                     <td>{{ item.operationId}}</td>
                     <td>{{ item.required}}</td>

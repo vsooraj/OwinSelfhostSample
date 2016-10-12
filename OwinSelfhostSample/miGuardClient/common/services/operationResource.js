@@ -11,7 +11,7 @@
     //    return $resource("/api/operations/:operationId")
     //}
     function operationResource($resource) {
-        return $resource("/api/operations/:pageSize/:pageNumber/:filterBy/:orderBy", { pageSize: '@pageSize', pageNumber: '@pageNumber', filterBy: '@filterBy', orderBy: '@orderBy' });
-    }
+        return $resource("/api/operations/:pageSize/:pageNumber/:filterBy/:orderBy/:reverse", { pageSize: '@pageSize', pageNumber: '@pageNumber', filterBy: '@filterBy', orderBy: '@orderBy', reverse: '@reverse' });
+    }    
 
 }());

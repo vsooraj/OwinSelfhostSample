@@ -47,17 +47,17 @@ namespace OwinSelfhostSample.Controllers
             return Ok(item);
         }
         // GET: api/items/pageSize/pageNumber/filterBy(optional)/orderBy(optional)  
-        [Route("{pageSize:int}/{pageNumber:int}/{filterBy:alpha?}/{orderBy:alpha?}/{reverse:alpha?}")]
+        [Route("{pageSize:int}/{pageNumber:int}/{filterBy}/{orderBy:alpha?}/{reverse:alpha?}")]
         public IHttpActionResult Get(int pageSize, int pageNumber, string filterBy = "", string orderBy = "", bool reverse = true)
         {
             var totalCount = itemRepository.Items.Count();
             var totalPages = Math.Ceiling((double)totalCount / pageSize);
             var items = itemRepository.Items.ToList();
-            if (!String.IsNullOrWhiteSpace(filterBy) && filterBy != "Search")
+            if (!String.IsNullOrWhiteSpace(filterBy) && filterBy.ToLower() != "search")
             {
                 filterBy = filterBy.ToLower();
                 items = itemRepository.Items.Where(s => s.sourceDevice.ToLower().Contains(filterBy)
-                              || s.requestType.ToLower().Contains(filterBy)).ToList();
+                              || s.requestType.ToLower().Contains(filterBy) || s.itemId.ToString().Contains(filterBy)).ToList();
             }
             if (!String.IsNullOrEmpty(orderBy))
             {

@@ -47,22 +47,24 @@ namespace OwinSelfhostSample.Controllers
             }
             return Ok(item);
         }
-        // GET: api/operations/pageSize/pageNumber/orderBy(optional) 
-        [Route("{pageSize:int}/{pageNumber:int}/{filterBy:alpha?}/{orderBy:alpha?}")]
-        public IHttpActionResult Get(int pageSize, int pageNumber, string filterBy = "", string orderBy = "")
+        // GET: api/operations/pageSize/pageNumber/orderBy(optional)         
+        [Route("{pageSize:int}/{pageNumber:int}/{filterBy}/{orderBy:alpha?}/{reverse:alpha?}")]
+        public IHttpActionResult Get(int pageSize, int pageNumber, string filterBy = "", string orderBy = "", bool reverse = true)
         {
-
             var totalCount = operationsRepository.Operations.Count();
             var totalPages = Math.Ceiling((double)totalCount / pageSize);
-            if (!String.IsNullOrEmpty(filterBy))
+            var operations = operationsRepository.Operations.ToList();
+            if (!String.IsNullOrWhiteSpace(filterBy) && filterBy != "Search")
             {
                 filterBy = filterBy.ToLower();
+                operations = operationsRepository.Operations.Where(s => s.operationId.ToString().Contains(filterBy)).ToList();
             }
-            var operations = operationsRepository.Operations.Where(s => s.required.ToString().Contains(filterBy)).ToList();
-
-
-            operations = operations.OrderBy(r => r.operationId).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
-
+            if (!String.IsNullOrEmpty(orderBy))
+            {
+                orderBy = "operationId";
+            }
+            operations = operations.AsQueryable().OrderByPropertyName(orderBy, reverse).ToList();
+            operations = operations.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
 
             var result = new
             {
