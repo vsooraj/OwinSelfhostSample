@@ -50,6 +50,12 @@
                            }
                        }
                    })
+               //products
+               .state("productsList", {
+                   url: "/products",
+                   templateUrl: "app/products/productsListView.html",
+                   controller: "ProductsListCtrl as vm"
+               })
 
            }]
     );

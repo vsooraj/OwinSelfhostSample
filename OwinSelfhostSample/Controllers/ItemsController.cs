@@ -2,6 +2,8 @@
 using OwinSelfhostSample.Models;
 using System;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Web.Http;
 
 namespace OwinSelfhostSample.Controllers
@@ -14,13 +16,28 @@ namespace OwinSelfhostSample.Controllers
         {
             itemRepository = new ItemRepository();
         }
-        // GET: api/Items
+        //// GET: api/Items
+        //[Route("")]
+        //public IHttpActionResult Get()
+        //{
+        //    var items = this.itemRepository.Items.ToList();
+        //    if (items == null)
+        //    {
+        //        throw new HttpResponseException(
+        //            System.Net.HttpStatusCode.NotFound);
+        //    }
+
+        //    return Ok(items);
+        //}
+
         [Route("")]
-        public IHttpActionResult Get()
+        [Queryable]
+        public HttpResponseMessage Get()
         {
             var items = this.itemRepository.Items.ToList();
 
-            return Ok(items);
+            return Request.CreateResponse(HttpStatusCode.OK, items.AsQueryable());
+
         }
         // GET: api/Items/5
         [Route("{id:int}")]

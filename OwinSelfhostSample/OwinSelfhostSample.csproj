@@ -32,6 +32,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.Edm.5.6.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Data.OData, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.OData.5.6.0\lib\net40\Microsoft.Data.OData.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
       <Private>True</Private>
@@ -68,9 +76,17 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Spatial, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Spatial.5.6.0\lib\net40\System.Spatial.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Http, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.0\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.OData, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.OData.5.0.0\lib\net45\System.Web.Http.OData.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.Http.Owin, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -93,9 +109,11 @@
     <Compile Include="Controllers\CompaniesController.cs" />
     <Compile Include="Controllers\ItemsController.cs" />
     <Compile Include="Controllers\OperationsController.cs" />
+    <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Models\ItemRepository.cs" />
     <Compile Include="Models\OperationsRepository.cs" />
+    <Compile Include="Models\ProductRepository.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -180,9 +198,12 @@
     <Content Include="miGuardClient\app\items\itemListView.html" />
     <Content Include="miGuardClient\app\operations\operationListView.html" />
     <Content Include="miGuardClient\app\operations\operationListCtrl.js" />
+    <Content Include="miGuardClient\app\products\productsListCtrl.js" />
+    <Content Include="miGuardClient\app\products\productsListView.html" />
     <Content Include="miGuardClient\app\welcomeView.html" />
     <Content Include="miGuardClient\common\services\common.services.js" />
     <Content Include="miGuardClient\common\services\itemResource.js" />
+    <Content Include="miGuardClient\common\services\productResource.js" />
     <Content Include="miGuardClient\common\services\operationResource.js" />
     <Content Include="miGuardClient\css\app.css" />
     <Content Include="miGuardClient\css\bootstrap-lumen.css" />

@@ -26,6 +26,7 @@
     <script src="common/services/common.services.js"></script>
     <script src="common/services/itemResource.js"></script>
     <script src="common/services/operationResource.js"></script>
+    <script src="common/services/productResource.js"></script>
 
 
     <!-- Item Controllers -->
@@ -33,6 +34,8 @@
 
     <!-- Operation Controllers -->
     <script src="app/operations/operationListCtrl.js"></script>
+    <!-- Operation Controllers -->
+    <script src="app/products/productsListCtrl.js"></script>
 </head>
 
 <body ng-app="miGuard">
@@ -54,7 +57,9 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav pull-right">
                     <li><a ui-sref="itemList">Items</a></li>
-                    <li><a ui-sref="operationList">Operations</a></li>                   
+                    <li><a ui-sref="operationList">Operations</a></li>
+                    <li><a ui-sref="productsList">Products</a></li>   
+
                 </ul>
             </div>
         </div>
