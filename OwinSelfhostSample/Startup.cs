@@ -20,8 +20,9 @@ namespace OwinSelfhostSample
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
-
-
+            //// config.EnableQuerySupport();
+            //config.Routes.MapODataServiceRoute("odata", null, GetEdmModel(), new DefaultODataBatchHandler(GlobalConfiguration.DefaultServer));
+            //config.EnsureInitialized();
             config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             appBuilder.UseWebApi(config);
 
@@ -38,5 +39,16 @@ namespace OwinSelfhostSample
             appBuilder.UseFileServer(options);
 
         }
+
+        //private static IEdmModel GetEdmModel()
+        //{
+        //    ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
+        //    builder.Namespace = "OwinSelfhostSample";
+        //    builder.ContainerName = "DefaultContainer";
+        //    builder.EntitySet<Product>("Product");
+        //    var edmModel = builder.GetEdmModel();
+        //    return edmModel;
+        //}
     }
+
 }

@@ -7,12 +7,15 @@
 
     function ProductsListCtrl(productResource) {
         var vm = this;
-        productResource.query({
+        productResource.get({
             $filter: "ProductId eq 2 or substringof('Lumia', ProductName) eq true",
-            $orderby: "ProductId asc",
-            $inlinecount:"allpages"
+            $orderby: "ProductId desc",
+            $inlinecount: "allpages"
         }, function (data) {
-            vm.products = data;
+            alert(data);
+            vm.products = data.items;
+            vm.totalCount = data.count;
+           // alert();
         });       
         
 

@@ -8,8 +8,8 @@
                  productResource]);
 
     function productResource($resource) {
-        return $resource("/api/products/:productId")
+        return $resource("/api/products/:productId", { query: { method: 'GET', isArray: false } })
     }
-    
+  
 
 }());

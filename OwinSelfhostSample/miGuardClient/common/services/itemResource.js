@@ -7,8 +7,12 @@
                 ["$resource",
                  itemResource]);
 
+    //function itemResource($resource) {
+    //    return $resource("/api/items/:pageSize/:pageNumber/:filterBy/:orderBy/:reverse", { pageSize: '@pageSize', pageNumber: '@pageNumber', filterBy: '@filterBy', orderBy: '@orderBy', reverse: '@reverse' });
+    //}
     function itemResource($resource) {
-        return $resource("/api/items/:pageSize/:pageNumber/:filterBy/:orderBy/:reverse", { pageSize: '@pageSize', pageNumber: '@pageNumber', filterBy: '@filterBy', orderBy: '@orderBy', reverse: '@reverse' });
+        return $resource("/api/items/:itemId")
     }
+
 
 }());

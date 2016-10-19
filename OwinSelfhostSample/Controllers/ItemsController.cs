@@ -1,10 +1,12 @@
 ﻿using Common;
 using OwinSelfhostSample.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.OData;
+using System.Web.Http.OData.Extensions;
+using System.Web.Http.OData.Query;
 
 namespace OwinSelfhostSample.Controllers
 {
@@ -30,14 +32,37 @@ namespace OwinSelfhostSample.Controllers
         //    return Ok(items);
         //}
 
-        [Route("")]
-        [Queryable]
-        public HttpResponseMessage Get()
+        //[Route("")]
+        //[Queryable]
+        //public HttpResponseMessage Get()
+        //{
+        //    var items = this.itemRepository.Items.ToList();
+
+        //    return Request.CreateResponse(HttpStatusCode.OK, items.AsQueryable());
+
+        //}
+
+        public PageResult<Item> Get(ODataQueryOptions options)
         {
+
+            //if (options.OrderBy != null)
+            //{
+            //    options.OrderBy.Validator = new MyOrderByValidator();
+            //}
+
+            //var settings = new ODataValidationSettings()
+            //{
+            //    // Initialize settings as needed.
+            //    AllowedFunctions = AllowedFunctions.AllMathFunctions
+            //};
+
+            //// Validate
+            //options.Validate(settings);
             var items = this.itemRepository.Items.ToList();
+            var results = options.ApplyTo(items.AsQueryable());
+            // var count = (long)Request.GetInlineCount();
 
-            return Request.CreateResponse(HttpStatusCode.OK, items.AsQueryable());
-
+            return new PageResult<Item>(results as IEnumerable<Item>, Request.RequestUri, Request.ODataProperties().TotalCount);
         }
         // GET: api/Items/5
         [Route("{id:int}")]

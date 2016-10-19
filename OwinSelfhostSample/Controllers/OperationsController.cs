@@ -1,8 +1,12 @@
 ﻿using Common;
 using OwinSelfhostSample.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using System.Web.Http.OData;
+using System.Web.Http.OData.Extensions;
+using System.Web.Http.OData.Query;
 
 namespace OwinSelfhostSample.Controllers
 {
@@ -16,12 +20,19 @@ namespace OwinSelfhostSample.Controllers
             operationsRepository = new OperationsRepository();
         }
 
-        [Route("")]
-        public IHttpActionResult Get()
+        //[Route("")]
+        //public IHttpActionResult Get()
+        //{
+        //    var operations = this.operationsRepository.Operations.ToList();
+
+        //    return Ok(operations);
+        //}
+
+        public PageResult<Operation> Get(ODataQueryOptions options)
         {
             var operations = this.operationsRepository.Operations.ToList();
-
-            return Ok(operations);
+            var results = options.ApplyTo(operations.AsQueryable());
+            return new PageResult<Operation>(results as IEnumerable<Operation>, Request.RequestUri, Request.ODataProperties().TotalCount);
         }
         // GET: api/operations/5
         [Route("{id:int}")]

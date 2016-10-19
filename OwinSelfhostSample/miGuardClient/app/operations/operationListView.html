@@ -3,16 +3,17 @@
          style="font-size:large">
         Operations
         <div class="col-lg-4 pull-right">
-            <input type="text" class="form-control" placeholder="Search" ng-model="vm.searchText">
+            <form>
+                <input type="text" class="form-control" placeholder="Search" ng-model="vm.searchText">
 
-            <button type="button" class="btn btn-default placeholder-search-icon" aria-label="Left Align" ng-click="vm.navigate(newPageNumber)">
-                <i class="glyphicon glyphicon-search" aria-hidden="true"></i>
-            </button>
+                <button type="submit" class="btn btn-default placeholder-search-icon" aria-label="Left Align" ng-click="vm.navigate(newPageNumber)">
+                    <i class="glyphicon glyphicon-search" aria-hidden="true"></i>
+                </button>
+                </form>
         </div>
     </div>
 
-    <div class="panel-body">
-        <!--<label>Search: <input ng-model="searchText" ng-click="vm.navigate(newPageNumber)"><i class="glyphicon glyphicon-search" aria-hidden="true"></i></label>-->
+    <div class="panel-body">     
         <table class="table">
             <thead>
                  <tr>
@@ -35,7 +36,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr dir-paginate="item in vm.operations  | itemsPerPage:10 "
+                <tr dir-paginate="item in vm.operations  | itemsPerPage:10 " 
                      total-items="vm.totalCount" current-page="vm.currentPage" >
                     <td>{{ item.operationId}}</td>
                     <td>{{ item.required}}</td>

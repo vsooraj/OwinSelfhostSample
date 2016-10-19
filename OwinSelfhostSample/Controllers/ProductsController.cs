@@ -1,8 +1,9 @@
 ﻿using OwinSelfhostSample.Models;
+using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.OData;
+using System.Web.Http.OData.Query;
 
 namespace OwinSelfhostSample
 {
@@ -17,13 +18,20 @@ namespace OwinSelfhostSample
         // GET api/values 
 
         [Route("")]
-        [Queryable(PageSize = 10)]
-        public HttpResponseMessage Get()
+        //[Queryable(PageSize = 10)]
+        //public HttpResponseMessage Get()
+        //{
+        //    var products = this.productRepository.Products.ToList();
+
+        //    return Request.CreateResponse(HttpStatusCode.OK, products.AsQueryable());
+
+        //}
+        public PageResult<Product> Get(ODataQueryOptions options)
         {
+
             var products = this.productRepository.Products.ToList();
-
-            return Request.CreateResponse(HttpStatusCode.OK, products.AsQueryable());
-
+            IQueryable results = options.ApplyTo(products.AsQueryable());
+            return new PageResult<Product>(results as IEnumerable<Product>, Request.RequestUri, products.Count());
         }
 
         // GET api/values/5 
