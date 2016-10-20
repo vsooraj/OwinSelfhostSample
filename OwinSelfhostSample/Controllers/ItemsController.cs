@@ -1,6 +1,5 @@
 ﻿using Common;
 using OwinSelfhostSample.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
@@ -18,50 +17,10 @@ namespace OwinSelfhostSample.Controllers
         {
             itemRepository = new ItemRepository();
         }
-        //// GET: api/Items
-        //[Route("")]
-        //public IHttpActionResult Get()
-        //{
-        //    var items = this.itemRepository.Items.ToList();
-        //    if (items == null)
-        //    {
-        //        throw new HttpResponseException(
-        //            System.Net.HttpStatusCode.NotFound);
-        //    }
-
-        //    return Ok(items);
-        //}
-
-        //[Route("")]
-        //[Queryable]
-        //public HttpResponseMessage Get()
-        //{
-        //    var items = this.itemRepository.Items.ToList();
-
-        //    return Request.CreateResponse(HttpStatusCode.OK, items.AsQueryable());
-
-        //}
-
         public PageResult<Item> Get(ODataQueryOptions options)
         {
-
-            //if (options.OrderBy != null)
-            //{
-            //    options.OrderBy.Validator = new MyOrderByValidator();
-            //}
-
-            //var settings = new ODataValidationSettings()
-            //{
-            //    // Initialize settings as needed.
-            //    AllowedFunctions = AllowedFunctions.AllMathFunctions
-            //};
-
-            //// Validate
-            //options.Validate(settings);
             var items = this.itemRepository.Items.ToList();
             var results = options.ApplyTo(items.AsQueryable());
-            // var count = (long)Request.GetInlineCount();
-
             return new PageResult<Item>(results as IEnumerable<Item>, Request.RequestUri, Request.ODataProperties().TotalCount);
         }
         // GET: api/Items/5
@@ -88,34 +47,7 @@ namespace OwinSelfhostSample.Controllers
             }
             return Ok(item);
         }
-        // GET: api/items/pageSize/pageNumber/filterBy(optional)/orderBy(optional)  
-        [Route("{pageSize:int}/{pageNumber:int}/{filterBy}/{orderBy:alpha?}/{reverse:alpha?}")]
-        public IHttpActionResult Get(int pageSize, int pageNumber, string filterBy = "", string orderBy = "", bool reverse = true)
-        {
-            var totalCount = itemRepository.Items.Count();
-            var totalPages = Math.Ceiling((double)totalCount / pageSize);
-            var items = itemRepository.Items.ToList();
-            if (!String.IsNullOrWhiteSpace(filterBy) && filterBy.ToLower() != "search")
-            {
-                filterBy = filterBy.ToLower();
-                items = itemRepository.Items.Where(s => s.sourceDevice.ToLower().Contains(filterBy)
-                              || s.requestType.ToLower().Contains(filterBy) || s.itemId.ToString().Contains(filterBy)).ToList();
-            }
-            if (!String.IsNullOrEmpty(orderBy))
-            {
-                orderBy = "itemId";
-            }
-            items = items.AsQueryable().OrderByPropertyName(orderBy, reverse).ToList();
-            items = items.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
-            var result = new
-            {
-                TotalCount = totalCount,
-                TotalPages = totalPages,
-                Items = items
-            };
-            return Ok(result);
 
-        }
         public IHttpActionResult Post(Item item)
         {
             if (item == null)

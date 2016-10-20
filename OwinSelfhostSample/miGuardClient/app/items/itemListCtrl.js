@@ -17,66 +17,61 @@
         vm.reverse = true;
         vm.sortBy = 'asc';
         vm.sort = function (keyname) {
-            vm.sortKey = keyname;   //set the sortKey to the param passed
-            vm.reverse = !vm.reverse; //if true make it false and vice versa
-            //alert(vm.sortKey);
-            //alert(vm.reverse);
-            if (vm.reverse) { vm.sortBy = 'asc' } else { vm.sortBy = 'desc' }
+            vm.sortKey = keyname; 
+            vm.reverse = !vm.reverse; //if true make it false and vice versa            
+            vm.sortBy = vm.reverse == true ? "asc" : "desc";
             navigate(vm.currentPage);
         }
         vm.currentPage = 0;
         vm.searchText = "";
         vm.filterBy = "";
-        vm.navigate = navigate;
-     
+        vm.navigate = navigate;     
         activate();
 
-        function activate() {
-            //if this is the first activation of the controller load the first page
+        function activate() {           
             if (vm.currentPage === 0) {
                 navigate(1);
             }
         }
+        function getFilterBy(paramKey,paramValue) {
+            if (paramValue != "" && paramKey != "") {
+                return "substringof(tolower('" + paramValue + "'), tolower(" + paramKey + ")) eq true";
+            }
+            else
+                return "";
+        }
         function navigate(pageNumber) {          
             if (typeof (pageNumber) == "undefined") {
                 pageNumber = vm.currentPage;
-            }
-            if (vm.searchText == "") {
-                vm.searchText = ""
-            }
+            }     
             vm.status.busy = true;
             vm.status.message = "loading records";
-            vm.currentPage = pageNumber;         
-         
-            //itemResource.get({ pageSize: '10', pageNumber: pageNumber, filterBy: vm.searchText, orderBy:vm.sortKey, reverse: vm.reverse }, function (data) {
-            //    console.log(data);
-            //    vm.items = data.items;
-            //    vm.totalCount = data.totalCount;
-            //}); 
-            //"substringof(tolower('" + vm.searchText + "'), tolower(sourceDevice)) eq true",
-            // var f = ODataFilterBuilder;
-            var filterby = "substringof(tolower('" + vm.searchText + "'), tolower(sourceDevice)) eq true";
-            //var orderby = vm.sortKey+" "+vm.sortBy+" "
-            //var filters = [orderby, " $inlinecount: 'allpages'"];
-           
+            vm.currentPage = pageNumber;
+
+            var itemId = 0;
+            itemId = parseInt(vm.searchText);
+
+            var myBool = null;
+            var filterby = "";
+            var requestType = getFilterBy("requestType", vm.searchText);
+            var encryptionProvider = getFilterBy("encryptionProvider", vm.searchText);
+            var encryptionKey = getFilterBy("encryptionKey", vm.searchText);
+            var sourceDevice = getFilterBy("sourceDevice", vm.searchText);
+
+            filterby = isNaN(itemId) == true ? "" : "itemId eq " + itemId;           
+            filterby += filterby.length > 0 ? " or " + requestType : requestType;
+            filterby += filterby.length > 0 ? " or " + encryptionProvider : encryptionProvider;
+            filterby += filterby.length > 0 ? " or " + encryptionKey : encryptionKey;
+            filterby += filterby.length > 0 ? " or " + sourceDevice : sourceDevice;
+
             var myObj = new Object();
             myObj.$orderby = vm.sortKey + " " + vm.sortBy + " ";
             myObj.$inlinecount = "allpages";
             if (vm.searchText != "" && vm.searchText != "Search") {
                 myObj.$filter = filterby;
-            }
-            if (vm.currentPage === 0) {
-                myObj.$skip = vm.currentPage;
-            }
-            else {
-                myObj.$skip = (vm.currentPage-1)*10;
-            }
-            
-           // alert(myObj);
+            }        
+            myObj.$skip = vm.currentPage === 0 ? vm.currentPage : (vm.currentPage - 1) * 10;
             itemResource.get(myObj, function (data) {
-                //console.log(data);
-                //alert(data.items);
-                //alert(data.count);
                 vm.items = data.items;
                 vm.totalCount = data.count;
             });
