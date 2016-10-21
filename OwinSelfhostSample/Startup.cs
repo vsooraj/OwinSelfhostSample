@@ -10,7 +10,6 @@ namespace OwinSelfhostSample
     {
         public void Configuration(IAppBuilder appBuilder)
         {
-
             HttpConfiguration config = new HttpConfiguration();
             config.MapHttpAttributeRoutes();
             config.Routes.MapHttpRoute(
@@ -33,9 +32,7 @@ namespace OwinSelfhostSample
             options.StaticFileOptions.ServeUnknownFileTypes = true;
             options.DefaultFilesOptions.DefaultFileNames = new[] { "index.html" };
             appBuilder.UseFileServer(options);
-
         }
-
 
     }
 
