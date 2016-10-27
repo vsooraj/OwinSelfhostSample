@@ -32,6 +32,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.1\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Data.Edm, Version=5.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Data.Edm.5.7.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
       <Private>True</Private>
@@ -64,6 +72,18 @@
       <HintPath>..\packages\Microsoft.Owin.Hosting.3.0.1\lib\net45\Microsoft.Owin.Hosting.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.2.1.0\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.3.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Owin.StaticFiles, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.StaticFiles.3.0.1\lib\net45\Microsoft.Owin.StaticFiles.dll</HintPath>
       <Private>True</Private>
@@ -82,6 +102,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.DirectoryServices.AccountManagement" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.2\lib\net45\System.Net.Http.Formatting.dll</HintPath>
@@ -117,6 +138,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationOAuthProvider.cs" />
+    <Compile Include="BasicAuthenticationAttribute.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Models\AccountRepository.cs" />
     <Compile Include="MyOrderByValidator.cs" />
     <Compile Include="CompanyClient.cs" />
     <Compile Include="Controllers\CompaniesController.cs" />
@@ -208,15 +233,18 @@
     <Content Include="miGuardClient\app\app.js" />
     <Content Include="miGuardClient\app\items\itemListCtrl.js" />
     <Content Include="miGuardClient\app\items\itemListView.html" />
+    <Content Include="miGuardClient\app\mainCtrl.js" />
     <Content Include="miGuardClient\app\operations\operationListView.html" />
     <Content Include="miGuardClient\app\operations\operationListCtrl.js" />
     <Content Include="miGuardClient\app\products\productsListCtrl.js" />
     <Content Include="miGuardClient\app\products\productsListView.html" />
     <Content Include="miGuardClient\app\welcomeView.html" />
+    <Content Include="miGuardClient\common\currentUser.js" />
     <Content Include="miGuardClient\common\services\common.services.js" />
     <Content Include="miGuardClient\common\services\itemResource.js" />
     <Content Include="miGuardClient\common\services\productResource.js" />
     <Content Include="miGuardClient\common\services\operationResource.js" />
+    <Content Include="miGuardClient\common\userAccount.js" />
     <Content Include="miGuardClient\css\app.css" />
     <Content Include="miGuardClient\css\bootstrap-lumen.css" />
     <Content Include="miGuardClient\css\bootstrap.css" />

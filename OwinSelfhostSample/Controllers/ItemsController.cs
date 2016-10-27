@@ -9,6 +9,7 @@ using System.Web.Http.OData.Query;
 
 namespace OwinSelfhostSample.Controllers
 {
+    [Authorize]
     [RoutePrefix("api/Items")]
     public class ItemsController : ApiController
     {

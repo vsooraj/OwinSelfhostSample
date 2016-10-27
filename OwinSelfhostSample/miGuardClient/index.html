@@ -27,7 +27,8 @@
     <script src="common/services/itemResource.js"></script>
     <script src="common/services/operationResource.js"></script>
     <script src="common/services/productResource.js"></script>
-
+    <script src="common/useraccount.js"></script>
+    <script src="common/currentuser.js"></script>
 
     <!-- Item Controllers -->
     <script src="app/items/itemListCtrl.js"></script>
@@ -36,13 +37,14 @@
     <script src="app/operations/operationListCtrl.js"></script>
     <!-- Operation Controllers -->
     <script src="app/products/productsListCtrl.js"></script>
+    <script src="app/mainCtrl.js"></script>
 </head>
 
-<body ng-app="miGuard">
+<body ng-app="miGuard" ng-controller="MainCtrl as vm">
     <nav class="navbar navbar-inverse">
         <div id="navBar" class="container">
             <a class="navbar-brand"
-               ui-sref="home"><img src="images/ivedix-nameplate.png" width="132" height="auto" alt="miGuard" /> </a>
+               ui-sref="home"><img src="images/ivedix-nameplate.png" width="132" height="auto" alt="miGuard" /></a>
             <div class="navbar-header">
                 <button type="button"
                         class="navbar-toggle"
@@ -54,22 +56,64 @@
                     <span class="icon-bar"></span>
                 </button>
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav pull-right">
+            <div class="navbar-collapse collapse animate-if">
+
+                <ul class="nav navbar-nav pull-left" ng-show="vm.isLoggedIn()">
                     <li><a ui-sref="itemList">Items</a></li>
                     <li><a ui-sref="operationList">Operations</a></li>
-                    <li><a ui-sref="productsList">Products</a></li>   
+                    <li><a ui-sref="productsList">Products</a></li>
 
                 </ul>
+
+                <form id="signin" class="navbar-form navbar-right" role="search" ng-hide="vm.isLoggedIn()">
+                    <div class="form-group inner-addon left-addon">
+                        <i class="glyphicon glyphicon-user userloginform"></i>
+                        <input type="text" class="form-control" name="username" placeholder="Username" ng-model="vm.userName">
+                    </div>
+                    <div class="form-group inner-addon left-addon">
+                        <i class="glyphicon glyphicon-lock userloginform"></i>
+                        <input type="password" class="form-control" name="password" placeholder="Password" ng-model="vm.password">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" ng-click="vm.login()">Login</button>
+
+
+                </form>
+
+                <div class="navbar-login">
+                    <div class="row">
+                        <div class="col-lg-6 userlogin-container">
+                            <ul class="nav navbar-nav navbar-right" ng-show="vm.isLoggedIn()">
+                                <li>
+                                    <a style="cursor:none;">
+                                        <span class="glyphicon glyphicon-user icon-size"></span>
+                                        <strong>{{vm.userData.userName}}</strong>
+
+                                    </a>
+
+                                </li>
+                                <li><a href="#" ng-click="vm.logout()"><span>Sign Out </span> <span class="glyphicon glyphicon-log-out  pull-right log-out-right "></span></a></li>
+                            </ul>
+
+                        </div>
+                    </div>
+                </div>
+
+
             </div>
         </div>
     </nav>
 
     <div class="container">
         <div ui-view>
-           
+
         </div>
+        <div class="row">            
+            <div class="col-md-2 col-md-offset-5" ng-show="vm.message" style="color:red;">{{vm.message}}</div>
+        </div> 
     </div>
+
+
 </body>
 
 </html>
