@@ -17,6 +17,8 @@ namespace OwinSelfhostSample
         public void Configuration(IAppBuilder appBuilder)
         {
 
+            //enable cors origin requests
+            appBuilder.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
 
             HttpConfiguration config = new HttpConfiguration();
             config.MapHttpAttributeRoutes();
@@ -28,25 +30,37 @@ namespace OwinSelfhostSample
 
             config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             appBuilder.UseWebApi(config);
+
             // Configure Web API to use only bearer token authentication.
-            config.SuppressDefaultHostAuthentication();
-            config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
+            //config.SuppressDefaultHostAuthentication();
+            //config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
             //appBuilder.CreatePerOwinContext(ApplicationDbContext.Create);
             //appBuilder.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
+
             // Configure the application for OAuth based flow
-            PublicClientId = "self";
+            //PublicClientId = "self";
+            var myProvider = new ApplicationOAuthProvider();
             OAuthOptions = new OAuthAuthorizationServerOptions
             {
-                TokenEndpointPath = new PathString("/Token"),
-                Provider = new ApplicationOAuthProvider(PublicClientId),
-                AuthorizeEndpointPath = new PathString("/api/Account/Token"),
-                AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(30),
-                // In production mode set AllowInsecureHttp = false
-                AllowInsecureHttp = true
+                //TokenEndpointPath = new PathString("/Token"),
+                //// Provider = new ApplicationOAuthProvider(PublicClientId),
+                //AuthorizeEndpointPath = new PathString("/api/Account/Token"),
+                //AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
+                //// In production mode set AllowInsecureHttp = false
+                //AllowInsecureHttp = true,
+                //Provider = myProvider
+
+                AllowInsecureHttp = true,
+                TokenEndpointPath = new PathString("/token"),
+                AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
+                Provider = myProvider
             };
 
             // Enable the application to use bearer tokens to authenticate users
             appBuilder.UseOAuthBearerTokens(OAuthOptions);
+            appBuilder.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
+
+
 
             //config.Filters.Add(new BasicAuthenticationAttribute());
 

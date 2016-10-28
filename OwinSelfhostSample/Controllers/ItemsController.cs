@@ -1,7 +1,9 @@
 ﻿using Common;
 using OwinSelfhostSample.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Web.Http;
 using System.Web.Http.OData;
 using System.Web.Http.OData.Extensions;
@@ -9,7 +11,7 @@ using System.Web.Http.OData.Query;
 
 namespace OwinSelfhostSample.Controllers
 {
-    [Authorize]
+
     [RoutePrefix("api/Items")]
     public class ItemsController : ApiController
     {
@@ -24,6 +26,36 @@ namespace OwinSelfhostSample.Controllers
             var results = options.ApplyTo(items.AsQueryable());
             return new PageResult<Item>(results as IEnumerable<Item>, Request.RequestUri, Request.ODataProperties().TotalCount);
         }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("forall")]
+        public IHttpActionResult Get()
+        {
+            return Ok("Now server time is: " + DateTime.Now.ToString());
+        }
+
+        [Authorize(Roles = "user")]
+        [HttpGet]
+        [Route("authenticate")]
+        public IHttpActionResult GetForAuthenticate()
+        {
+            var identity = (ClaimsIdentity)User.Identity;
+            return Ok("Hello " + identity.Name);
+        }
+        [Authorize(Roles = "admin")]
+        [HttpGet]
+        [Route("authorize")]
+        public IHttpActionResult GetForAdmin()
+        {
+            var identity = (ClaimsIdentity)User.Identity;
+            var roles = identity.Claims
+                        .Where(c => c.Type == ClaimTypes.Role)
+                        .Select(c => c.Value);
+            return Ok("Hello " + identity.Name + " Role: " + string.Join(",", roles.ToList()));
+        }
+        [Authorize]
+        [HttpGet]
         // GET: api/Items/5
         [Route("{id:int}")]
         public IHttpActionResult Get(int id)
