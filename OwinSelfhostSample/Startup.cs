@@ -6,20 +6,30 @@ using Newtonsoft.Json.Serialization;
 using Owin;
 using System;
 using System.Web.Http;
-
 namespace OwinSelfhostSample
 {
     public class Startup
     {
+        public Startup()
+        {
+            OAuthOptions = new OAuthAuthorizationServerOptions();
+        }
         public static OAuthAuthorizationServerOptions OAuthOptions { get; private set; }
 
-        public static string PublicClientId { get; private set; }
+        // This method is required by Katana:
+        //public void Configuration(IAppBuilder app)
+        //{
+        //    ConfigureAuth(app);
+        //    var webApiConfiguration = ConfigureWebApi();
+        //    app.UseWebApi(webApiConfiguration);
+        //}
         public void Configuration(IAppBuilder appBuilder)
         {
 
             //enable cors origin requests
             appBuilder.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
-
+            ConfigureAuth(appBuilder);
+            //enable AttributeRoutes
             HttpConfiguration config = new HttpConfiguration();
             config.MapHttpAttributeRoutes();
             config.Routes.MapHttpRoute(
@@ -27,44 +37,18 @@ namespace OwinSelfhostSample
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
-
-            config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             appBuilder.UseWebApi(config);
+            config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
 
-            // Configure Web API to use only bearer token authentication.
+            //// Web API configuration and services
+            //// Configure Web API to use only bearer token authentication.
             //config.SuppressDefaultHostAuthentication();
             //config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
-            //appBuilder.CreatePerOwinContext(ApplicationDbContext.Create);
-            //appBuilder.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
-
-            // Configure the application for OAuth based flow
-            //PublicClientId = "self";
-            var myProvider = new ApplicationOAuthProvider();
-            OAuthOptions = new OAuthAuthorizationServerOptions
-            {
-                //TokenEndpointPath = new PathString("/Token"),
-                //// Provider = new ApplicationOAuthProvider(PublicClientId),
-                //AuthorizeEndpointPath = new PathString("/api/Account/Token"),
-                //AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
-                //// In production mode set AllowInsecureHttp = false
-                //AllowInsecureHttp = true,
-                //Provider = myProvider
-
-                AllowInsecureHttp = true,
-                TokenEndpointPath = new PathString("/token"),
-                AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
-                Provider = myProvider
-            };
-
-            // Enable the application to use bearer tokens to authenticate users
-            appBuilder.UseOAuthBearerTokens(OAuthOptions);
-            appBuilder.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
+            //// Enable the application to use bearer tokens to authenticate users
+            //appBuilder.UseOAuthBearerTokens(OAuthOptions);
 
 
-
-            //config.Filters.Add(new BasicAuthenticationAttribute());
-
-
+            //enable AJ Client 
             const string rootFolder = @"..\..\miGuardClient";
             var fileSystem = new PhysicalFileSystem(rootFolder);
             var options = new FileServerOptions
@@ -77,6 +61,31 @@ namespace OwinSelfhostSample
             options.DefaultFilesOptions.DefaultFileNames = new[] { "index.html" };
             appBuilder.UseFileServer(options);
         }
+        private void ConfigureAuth(IAppBuilder app)
+        {
+            var OAuthOptions = new OAuthAuthorizationServerOptions
+            {
+                TokenEndpointPath = new PathString("/Token"),
+                Provider = new ApplicationOAuthServerProvider(),
+                AccessTokenExpireTimeSpan = TimeSpan.FromDays(14),
+
+                // Only do this for demo!!
+                AllowInsecureHttp = true
+            };
+            app.UseOAuthAuthorizationServer(OAuthOptions);
+            app.UseOAuthBearerAuthentication(
+                    new OAuthBearerAuthenticationOptions());
+        }
+        private HttpConfiguration ConfigureWebApi()
+        {
+            var config = new HttpConfiguration();
+            config.Routes.MapHttpRoute(
+                "DefaultApi",
+                "api/{controller}/{id}",
+                new { id = RouteParameter.Optional });
+            return config;
+        }
+
 
     }
 

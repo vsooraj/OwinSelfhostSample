@@ -13,13 +13,14 @@
             token: ""
         };
 
-        var setProfile = function (username, token) {
+        var setProfile = function (username, token,LoggedIn) {
             profile.username = username;
             profile.token = token;
-            profile.isLoggedIn = true;
+            profile.isLoggedIn = LoggedIn;
         };
 
         var getProfile = function () {
+            
             return profile;
         }
 

@@ -4,128 +4,38 @@ using System.Threading.Tasks;
 
 namespace OwinSelfhostSample
 {
-    public class ApplicationOAuthProvider : OAuthAuthorizationServerProvider
+    public class ApplicationOAuthServerProvider : OAuthAuthorizationServerProvider
     {
-        //private readonly string _publicClientId;
-
-        //public ApplicationOAuthProvider(string publicClientId)
-        //{
-        //    if (publicClientId == null)
-        //    {
-        //        throw new ArgumentNullException("publicClientId");
-        //    }
-
-        //    _publicClientId = publicClientId;
-        //}
-
-
-        //public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
-        //{
-        //    var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
-
-        //    ApplicationUser user = await userManager.FindAsync(context.UserName, context.Password);
-
-        //    if (user == null)
-        //    {
-        //        context.SetError("invalid_grant", "The user name or password is incorrect.");
-        //        return;
-        //    }
-
-        //    ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(userManager,
-        //       OAuthDefaults.AuthenticationType);
-        //    ClaimsIdentity cookiesIdentity = await user.GenerateUserIdentityAsync(userManager,
-        //        CookieAuthenticationDefaults.AuthenticationType);
-
-        //    AuthenticationProperties properties = CreateProperties(context.UserName);
-        //    AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
-        //    context.Validated(ticket);
-        //    context.Request.Context.Authentication.SignIn(cookiesIdentity);
-        //}
-
-        public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
+        public override async Task ValidateClientAuthentication(
+            OAuthValidateClientAuthenticationContext context)
         {
-            var identity = new ClaimsIdentity(context.Options.AuthenticationType);
-            if (context.UserName == "admin" && context.Password == "admin")
-            {
-                identity.AddClaim(new Claim(ClaimTypes.Role, "admin"));
-                identity.AddClaim(new Claim("username", "admin"));
-                identity.AddClaim(new Claim(ClaimTypes.Name, "Sourav Mondal"));
-                context.Validated(identity);
-            }
-            else if (context.UserName == "user" && context.Password == "user")
-            {
-                identity.AddClaim(new Claim(ClaimTypes.Role, "user"));
-                identity.AddClaim(new Claim("username", "user"));
-                identity.AddClaim(new Claim(ClaimTypes.Name, "Suresh Sha"));
-                context.Validated(identity);
-            }
-            else
-            {
-                context.SetError("invalid_grant", "Provided username and password is incorrect");
-
-            }
-            return;
+            // This call is required...
+            // but we're not using client authentication, so validate and move on...
+            await Task.FromResult(context.Validated());
         }
 
-        //public override Task TokenEndpoint(OAuthTokenEndpointContext context)
-        //{
-        //    foreach (KeyValuePair<string, string> property in context.Properties.Dictionary)
-        //    {
-        //        context.AdditionalResponseParameters.Add(property.Key, property.Value);
-        //    }
 
-        //    return Task.FromResult<object>(null);
-        //}
-
-        public override Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
+        public override async Task GrantResourceOwnerCredentials(
+            OAuthGrantResourceOwnerCredentialsContext context)
         {
-            // Resource owner password credentials does not provide a client ID.
-            if (context.ClientId == null)
+            // DEMO ONLY: Pretend we are doing some sort of REAL checking here:
+            if (context.Password != "password")
             {
-                context.Validated();
+                context.SetError(
+                    "invalid_grant", "The user name or password is incorrect.");
+                context.Rejected();
+                return;
             }
 
-            return Task.FromResult<object>(null);
+            // Create or retrieve a ClaimsIdentity to represent the 
+            // Authenticated user:
+            ClaimsIdentity identity =
+                new ClaimsIdentity(context.Options.AuthenticationType);
+            identity.AddClaim(new Claim("user_name", context.UserName));
+
+            // Identity info will ultimately be encoded into an Access Token
+            // as a result of this call:
+            context.Validated(identity);
         }
-
-        //public override Task ValidateClientRedirectUri(OAuthValidateClientRedirectUriContext context)
-        //{
-        //    if (context.ClientId == _publicClientId)
-        //    {
-        //        Uri expectedRootUri = new Uri(context.Request.Uri, "/");
-
-        //        if (expectedRootUri.AbsoluteUri == context.RedirectUri)
-        //        {
-        //            context.Validated();
-        //        }
-        //    }
-
-        //    return Task.FromResult<object>(null);
-        //}
-
-        //public static AuthenticationProperties CreateProperties(string userName)
-        //{
-        //    IDictionary<string, string> data = new Dictionary<string, string>
-        //    {
-        //        { "userName", userName }
-        //    };
-        //    return new AuthenticationProperties(data);
-        //}
     }
-
-    //internal class ApplicationUserManager
-    //{
-    //    internal Task<ApplicationUser> FindAsync(string userName, string password)
-    //    {
-    //        throw new NotImplementedException();
-    //    }
-    //}
-
-    //internal class ApplicationUser
-    //{
-    //    internal Task<ClaimsIdentity> GenerateUserIdentityAsync(ApplicationUserManager userManager, string authenticationType)
-    //    {
-    //        throw new NotImplementedException();
-    //    }
-    //}
 }
