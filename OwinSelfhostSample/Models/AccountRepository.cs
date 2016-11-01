@@ -1,17 +1,14 @@
 ﻿using System.DirectoryServices.AccountManagement;
 using System.Security.Claims;
-
 namespace OwinSelfhostSample.Controllers
 {
     public class AccountRepository
     {
-        public bool ValidateCredentials(string domainName, string userName, string password, out ClaimsIdentity identity)
+        public bool ValidateCredentials(string userName, string password, out ClaimsIdentity identity)
         {
-
-            using (PrincipalContext pCtx = new PrincipalContext(ContextType.Domain, domainName))
+            using (var pc = new PrincipalContext(ContextType.Machine))
             {
-                bool isValid = pCtx.ValidateCredentials(userName, password);
-
+                bool isValid = pc.ValidateCredentials(userName, password);
                 if (isValid)
                 {
                     identity = new ClaimsIdentity(Startup.OAuthOptions.AuthenticationType);
@@ -25,7 +22,5 @@ namespace OwinSelfhostSample.Controllers
                 return isValid;
             }
         }
-
-
     }
 }

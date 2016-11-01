@@ -21,11 +21,10 @@
             vm.userData.password = window.btoa(vm.password);
             userAccount.login.loginUser(vm.userData,
                 function (data) {                
-                    vm.message = "";
+                    vm.message = "";//data.accessToken;
                     vm.password = "";
-                    if (currentUser != null) {
-                        currentUser.setProfile(vm.userData.userName, data.accessToken, true);
-                    }
+                    //vm.token = data.accessToken;
+                    currentUser.setProfile(vm.userData.userName, data.accessToken);
                 },
                 function (response) {
                     vm.password = "";                   
@@ -47,7 +46,6 @@
                 password: '',
                 confirmPassword: ''
             }
-            currentUser.setProfile("", "",false);
         }
     }
 
