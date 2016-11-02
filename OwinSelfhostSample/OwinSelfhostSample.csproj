@@ -105,6 +105,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.DirectoryServices.AccountManagement" />
     <Reference Include="System.Net.Http" />
@@ -208,6 +209,8 @@
     <None Include="Client\less\utilities.less" />
     <None Include="Client\less\variables.less" />
     <None Include="Client\less\wells.less" />
+    <None Include="miGuardClient\css\toastr.less" />
+    <None Include="miGuardClient\css\toastr.scss" />
     <None Include="miGuardClient\fonts\glyphicons-halflings-regular.eot" />
     <None Include="miGuardClient\fonts\glyphicons-halflings-regular.ttf" />
     <None Include="miGuardClient\fonts\glyphicons-halflings-regular.woff" />
@@ -238,6 +241,8 @@
     <Content Include="Client\js\jquery.min.js" />
     <Content Include="Client\js\less-1.3.3.min.js" />
     <Content Include="Client\js\scripts.js" />
+    <Content Include="miGuardClient\css\toastr.css" />
+    <Content Include="miGuardClient\css\toastr.min.css" />
     <Content Include="miGuardClient\app\app.js" />
     <Content Include="miGuardClient\app\items\itemListCtrl.js" />
     <Content Include="miGuardClient\app\items\itemListView.html" />
@@ -267,6 +272,14 @@
     <Content Include="miGuardClient\js\bootstrap.js" />
     <Content Include="miGuardClient\js\dirPagination.js" />
     <Content Include="miGuardClient\js\jquery.js" />
+    <Content Include="Scripts\jquery-1.6.3-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.6.3.js" />
+    <Content Include="Scripts\jquery-1.6.3.min.js" />
+    <Content Include="miGuardClient\js\toastr.js" />
+    <Content Include="miGuardClient\js\toastr.min.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="content\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

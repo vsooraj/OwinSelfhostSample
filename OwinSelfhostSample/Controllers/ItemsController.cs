@@ -20,6 +20,8 @@ namespace OwinSelfhostSample.Controllers
         {
             itemRepository = new ItemRepository();
         }
+        [Authorize]
+        [HttpGet]
         public PageResult<Item> Get(ODataQueryOptions options)
         {
             var items = this.itemRepository.Items.ToList();

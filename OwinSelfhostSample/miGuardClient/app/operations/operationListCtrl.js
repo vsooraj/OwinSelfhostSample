@@ -3,11 +3,14 @@
     angular
         .module("miGuard")
         .controller("OperationListCtrl",
-                    ["operationResource", OperationListCtrl]);
+                    ["operationResource", "currentUser", OperationListCtrl]);
 
-    function OperationListCtrl(operationResource) {
+    function OperationListCtrl(operationResource, currentUser) {
         var vm = this;
         //Status
+        vm.isLoggedIn = function () {
+            return currentUser.getProfile().isLoggedIn;
+        };
         vm.status = {
             type: "info",
             message: "ready",

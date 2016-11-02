@@ -3,11 +3,14 @@
     angular
         .module("miGuard")
         .controller("ItemListCtrl",
-                    ["itemResource", ItemListCtrl]);
+                    ["itemResource","currentUser", ItemListCtrl]);
 
-    function ItemListCtrl(itemResource) {      
+    function ItemListCtrl(itemResource, currentUser) {
 
         var vm = this;
+        vm.isLoggedIn = function () {
+            return currentUser.getProfile().isLoggedIn;
+        };
         vm.status = {
             type: "info",
             message: "ready",

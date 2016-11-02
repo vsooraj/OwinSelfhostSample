@@ -46,7 +46,7 @@
                 </tr>
             </tbody>
         </table>
-        <nav aria-label="Page navigation" class="position-center">
+        <nav aria-label="Page navigation" class="position-center"  ng-if="vm.isLoggedIn()">
             <dir-pagination-controls direction-links="true"
                                      boundary-links="true" on-page-change="vm.navigate(newPageNumber)">
 

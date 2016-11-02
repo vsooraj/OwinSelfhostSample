@@ -1,4 +1,4 @@
-<div class="panel panel-success">
+<div class="panel panel-success" ng-if="vm.isLoggedIn()">
     <div class="panel-heading item_title"
          style="font-size:large">
         Items
@@ -52,7 +52,7 @@
             </tbody>
         </table>
         <hr />
-        <nav aria-label="Page navigation" class="position-center">
+        <nav aria-label="Page navigation" class="position-center"  >
             <dir-pagination-controls direction-links="true"
                                      boundary-links="true" on-page-change="vm.navigate(newPageNumber)">
 

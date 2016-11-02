@@ -16,7 +16,8 @@ namespace OwinSelfhostSample
             productRepository = new ProductRepository();
         }
         // GET api/values 
-
+        [Authorize]
+        [HttpGet]
         [Route("")]
         //[Queryable(PageSize = 10)]
         //public HttpResponseMessage Get()

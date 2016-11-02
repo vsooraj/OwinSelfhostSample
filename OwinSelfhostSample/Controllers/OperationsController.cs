@@ -9,7 +9,7 @@ using System.Web.Http.OData.Query;
 
 namespace OwinSelfhostSample.Controllers
 {
-    [Authorize]
+
     [RoutePrefix("api/operations")]
     public class OperationsController : ApiController
     {
@@ -19,12 +19,16 @@ namespace OwinSelfhostSample.Controllers
         {
             operationsRepository = new OperationsRepository();
         }
+        [Authorize]
+        [HttpGet]
         public PageResult<Operation> Get(ODataQueryOptions options)
         {
             var operations = this.operationsRepository.Operations.ToList();
             var results = options.ApplyTo(operations.AsQueryable());
             return new PageResult<Operation>(results as IEnumerable<Operation>, Request.RequestUri, Request.ODataProperties().TotalCount);
         }
+        [Authorize]
+        [HttpGet]
         // GET: api/operations/5
         [Route("{id:int}")]
         public Operation Get(int id)
