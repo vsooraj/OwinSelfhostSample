@@ -5,13 +5,13 @@ using Newtonsoft.Json.Serialization;
 using Owin;
 using System.Web.Http;
 
+
+
 namespace OwinSelfhostSample
 {
     public class Startup
     {
         public static OAuthAuthorizationServerOptions OAuthOptions { get; private set; }
-
-        public static string PublicClientId { get; private set; }
 
         static Startup()
         {

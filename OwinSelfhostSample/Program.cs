@@ -2,6 +2,7 @@
 using Microsoft.Owin.Hosting;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 
 namespace OwinSelfhostSample
@@ -40,28 +41,28 @@ namespace OwinSelfhostSample
                 WriteCompaniesList(companies);
 
 
-                //int nextId = (from c in companies select c.Id).Max() + 1;
+                int nextId = (from c in companies select c.Id).Max() + 1;
 
-                //Console.WriteLine("Add a new company...");
-                //var result = companyClient.AddCompany(
-                //    new Company
-                //    {
-                //        Id = nextId,
-                //        Name = string.Format("New Company #{0}", nextId)
-                //    });
-                //WriteStatusCodeResult(result);
+                Console.WriteLine("Add a new company...");
+                var result = companyClient.AddCompany(
+                    new Company
+                    {
+                        Id = nextId,
+                        Name = string.Format("New Company #{0}", nextId)
+                    });
+                WriteStatusCodeResult(result);
 
-                //Console.WriteLine("Updated List after Update:");
-                //companies = companyClient.GetCompanies();
-                //WriteCompaniesList(companies);
+                Console.WriteLine("Updated List after Update:");
+                companies = companyClient.GetCompanies();
+                WriteCompaniesList(companies);
 
-                //Console.WriteLine("Delete a company...");
-                //result = companyClient.DeleteCompany(nextId - 1);
-                //WriteStatusCodeResult(result);
+                Console.WriteLine("Delete a company...");
+                result = companyClient.DeleteCompany(nextId - 1);
+                WriteStatusCodeResult(result);
 
-                //Console.WriteLine("Updated List after Delete:");
-                //companies = companyClient.GetCompanies();
-                //WriteCompaniesList(companies);
+                Console.WriteLine("Updated List after Delete:");
+                companies = companyClient.GetCompanies();
+                WriteCompaniesList(companies);
 
                 Console.WriteLine("Server running at {0} - press Enter to quit. ", baseUri);
                 Console.ReadLine();

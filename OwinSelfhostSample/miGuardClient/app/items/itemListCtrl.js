@@ -3,11 +3,13 @@
     angular
         .module("miGuard")
         .controller("ItemListCtrl",
-                    ["itemResource","currentUser", ItemListCtrl]);
+                    ["itemResource", "currentUser", '$state', ItemListCtrl]);
 
-    function ItemListCtrl(itemResource, currentUser) {
+    function ItemListCtrl(itemResource, currentUser,$state) {
 
         var vm = this;
+        vm.itemsToDelete = [];
+        vm.masterCheck = false;
         vm.isLoggedIn = function () {
             return currentUser.getProfile().isLoggedIn;
         };
@@ -80,6 +82,39 @@
             });
           
         }
+
+        vm.deleteAll = function () {            
+            vm.itemsToDelete = [];
+            var boxes = document.getElementsByClassName("rowSelector");
+            for (var bix in boxes) {
+                if (boxes[bix].checked) {
+                    var ix = boxes[bix].value;
+                    vm.itemsToDelete.push(ix);
+                }
+            }          
+         
+            itemResource.remove({ ids: vm.itemsToDelete.toString() }, function (data) {
+                vm.message = response.data.message + "\r\n";
+                toastr.error(vm.message, { timeOut: 5000 })
+            },
+                function (response) {
+                    vm.password = "";
+                    vm.message = response.data.message + "\r\n";
+                    toastr.error(vm.message, { timeOut: 5000 })
+                    if (response.data.exceptionMessage) {
+                        vm.message += response.data.exceptionMessage;
+                        toastr.error(vm.message, { timeOut: 5000 });
+                    }
+
+                    if (response.data.error) {
+                        vm.message += response.data.error;
+                        toastr.error(vm.message, { timeOut: 5000 })
+                    }
+                });
+            vm.navigate(vm.currentPage);
+        }
       
     }
+
+   
 }());

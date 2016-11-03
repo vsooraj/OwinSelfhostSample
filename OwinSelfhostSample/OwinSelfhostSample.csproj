@@ -147,17 +147,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationOAuthProvider.cs" />
-    <Compile Include="BasicAuthenticationAttribute.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Models\AccountRepository.cs" />
-    <Compile Include="MyOrderByValidator.cs" />
     <Compile Include="CompanyClient.cs" />
     <Compile Include="Controllers\CompaniesController.cs" />
     <Compile Include="Controllers\ItemsController.cs" />
     <Compile Include="Controllers\OperationsController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
-    <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Models\ItemRepository.cs" />
     <Compile Include="Models\OperationsRepository.cs" />
     <Compile Include="Models\ProductRepository.cs" />
@@ -167,7 +163,9 @@
     <Compile Include="Controllers\ValuesController.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Client\less\accordion.less" />
     <None Include="Client\less\alerts.less" />
     <None Include="Client\less\bootstrap.less" />

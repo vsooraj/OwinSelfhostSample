@@ -16,7 +16,7 @@
             "showMethod": "fadeIn",
             "hideMethod": "fadeOut"
         }
-        toastr.success('Welcome ', { timeOut: 5000 })
+        //toastr.success('Welcome ', { timeOut: 5000 })
        
         vm.userData = {
             userName: '',
@@ -33,12 +33,12 @@
                     if (currentUser != null) {
                         currentUser.setProfile(vm.userData.userName, data.accessToken, true);
                     }
-                    toastr.info(vm.userData.userName + ' Logged in ', { timeOut: 5000 })
+                    //toastr.info(vm.userData.userName + ' Logged in ', { timeOut: 5000 })
                 },
                 function (response) {
                     vm.password = "";
                     vm.message = response.data.message + "\r\n";
-                    toastr.error(vm.message, { timeOut: 5000 })
+                    //toastr.error(vm.message, { timeOut: 5000 })
                     if (response.data.exceptionMessage) {
                         vm.message += response.data.exceptionMessage;
                         toastr.error(vm.message,  { timeOut: 5000 });

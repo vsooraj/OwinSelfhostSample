@@ -3,7 +3,6 @@ using OwinSelfhostSample.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Web.Http;
 using System.Web.Http.OData;
 using System.Web.Http.OData.Extensions;
@@ -29,33 +28,33 @@ namespace OwinSelfhostSample.Controllers
             return new PageResult<Item>(results as IEnumerable<Item>, Request.RequestUri, Request.ODataProperties().TotalCount);
         }
 
-        [AllowAnonymous]
-        [HttpGet]
-        [Route("forall")]
-        public IHttpActionResult Get()
-        {
-            return Ok("Now server time is: " + DateTime.Now.ToString());
-        }
+        //[AllowAnonymous]
+        //[HttpGet]
+        //[Route("forall")]
+        //public IHttpActionResult Get()
+        //{
+        //    return Ok("Now server time is: " + DateTime.Now.ToString());
+        //}
 
-        [Authorize(Roles = "user")]
-        [HttpGet]
-        [Route("authenticate")]
-        public IHttpActionResult GetForAuthenticate()
-        {
-            var identity = (ClaimsIdentity)User.Identity;
-            return Ok("Hello " + identity.Name);
-        }
-        [Authorize(Roles = "admin")]
-        [HttpGet]
-        [Route("authorize")]
-        public IHttpActionResult GetForAdmin()
-        {
-            var identity = (ClaimsIdentity)User.Identity;
-            var roles = identity.Claims
-                        .Where(c => c.Type == ClaimTypes.Role)
-                        .Select(c => c.Value);
-            return Ok("Hello " + identity.Name + " Role: " + string.Join(",", roles.ToList()));
-        }
+        //[Authorize(Roles = "user")]
+        //[HttpGet]
+        //[Route("authenticate")]
+        //public IHttpActionResult GetForAuthenticate()
+        //{
+        //    var identity = (ClaimsIdentity)User.Identity;
+        //    return Ok("Hello " + identity.Name);
+        //}
+        //[Authorize(Roles = "admin")]
+        //[HttpGet]
+        //[Route("authorize")]
+        //public IHttpActionResult GetForAdmin()
+        //{
+        //    var identity = (ClaimsIdentity)User.Identity;
+        //    var roles = identity.Claims
+        //                .Where(c => c.Type == ClaimTypes.Role)
+        //                .Select(c => c.Value);
+        //    return Ok("Hello " + identity.Name + " Role: " + string.Join(",", roles.ToList()));
+        //}
         [Authorize]
         [HttpGet]
         // GET: api/Items/5
@@ -115,15 +114,44 @@ namespace OwinSelfhostSample.Controllers
             existing.sourceDevice = item.sourceDevice;
             return Ok();
         }
-        public IHttpActionResult Delete(int id)
+
+        //[Authorize]
+        //public IHttpActionResult Delete([FromUri]int id)
+        //{
+        //    var company = itemRepository.Items.FirstOrDefault(c => c.itemId == id);
+        //    if (company == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    //itemRepository.Items.Remove(company);
+        //    return Ok();
+        //}
+        //[Authorize]
+        //[HttpDelete]
+        public IHttpActionResult Delete(string ids)
         {
-            var company = itemRepository.Items.FirstOrDefault(c => c.itemId == id);
-            if (company == null)
+
+            if (ids == null)
             {
-                return NotFound();
+                return BadRequest("Argument Null");
             }
-            //itemRepository.Items.Remove(company);
+            var items = ids.Split(',');
+            foreach (var tempItem in items)
+            {
+                Item item = itemRepository.Items.FirstOrDefault(c => c.itemId == Convert.ToInt16(tempItem));
+                if (item == null)
+                    return BadRequest("Item with id " + tempItem + "not found");
+                else
+                    itemRepository.Remove(Convert.ToInt16(tempItem));
+            }
+
             return Ok();
+
+
         }
+
+
     }
+
 }
+

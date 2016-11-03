@@ -29,6 +29,16 @@ namespace OwinSelfhostSample.Models
             get { return _items.AsQueryable(); }
         }
 
+        //public void Remove(Item item)
+        //{
+        //    _items.Remove(item);
+
+        //}
+        public void Remove(int id)
+        {
+            _items.RemoveAll(p => p.itemId == id);
+        }
+
 
     }
 }

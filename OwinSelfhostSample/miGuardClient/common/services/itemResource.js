@@ -18,8 +18,22 @@
                 },
                 'query': {
                     headers: { 'Authorization': 'Bearer ' + currentUser.getProfile().token }
-                }
+                },
+                'remove': {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': 'Bearer ' + currentUser.getProfile().token,
+                        transformRequest: function (data, headersGetter) {
+                            var str = [];
+                            for (var d in data)
+                                str.push(encodeURIComponent(d) + "=" +
+                                                    encodeURIComponent(data[d]));
+                            return str.join("&");
+                        }
+                    }
 
+
+                }
             })
     }
 

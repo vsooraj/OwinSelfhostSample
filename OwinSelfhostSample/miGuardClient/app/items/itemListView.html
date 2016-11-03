@@ -14,7 +14,7 @@
         </div>
     </div>
     <div class="panel-body">
-        <!--<label class=" pull-right">Search: <input ng-model="searchText"></label>-->
+
         <table class="table">
             <thead>
                 <tr>
@@ -37,6 +37,7 @@
                         Source Device
                         <span class="glyphicon sort-icon" ng-show="vm.sortKey=='sourceDevice'" ng-class="{'glyphicon-chevron-up':vm.reverse,'glyphicon-chevron-down':!vm.reverse}"></span>
                     </th>
+                    <th><button type="button" class="btn btn-primary" ng-click="vm.deleteAll()">Delete</button></th>
                 </tr>
 
 
@@ -48,6 +49,7 @@
                     <td>{{ item.encryptionProvider }}</td>
                     <td>{{ item.encryptionKey }}</td>
                     <td>{{ item.sourceDevice  }}</td>
+                    <td><input type="checkbox" class="rowSelector" value="{{ item.itemId}}"  ng-click="rowSelect(this)" /></td>
                 </tr>
             </tbody>
         </table>
