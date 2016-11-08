@@ -14,7 +14,7 @@
                     {
                         'registerUser': { method: 'POST' }
                     }),
-            login: $resource(appSettings.serverPath + "/api/Account/Token", null,
+            login: $resource("/api/Account/Token", null,
                     {
                         'loginUser': {
                             method: 'POST',
@@ -31,7 +31,7 @@
 
                         }
                     }),
-            logout: $resource(appSettings.serverPath + "/api/Account/Logout", null,
+            logout: $resource("/api/Account/Logout", null,
                     {
                         'logout': {
                             method: 'POST',

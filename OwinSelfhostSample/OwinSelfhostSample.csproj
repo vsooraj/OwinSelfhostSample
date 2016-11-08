@@ -147,6 +147,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\APIElement.cs" />
+    <Compile Include="Configuration\AuthenticationElement.cs" />
+    <Compile Include="Configuration\miGuardConfig.cs" />
+    <Compile Include="Configuration\ParameterElement.cs" />
+    <Compile Include="Configuration\ParametersElementCollection.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Models\AccountRepository.cs" />
     <Compile Include="CompanyClient.cs" />

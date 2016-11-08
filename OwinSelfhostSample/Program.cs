@@ -1,5 +1,6 @@
 ﻿using Common;
 using Microsoft.Owin.Hosting;
+using OwinSelfhostSample.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,8 @@ namespace OwinSelfhostSample
         static void Main(string[] args)
         {
             Console.WriteLine("Starting web Server...");
-            string baseUri = "http://localhost:8080/";//9000 Also we can use.
+            // string baseUri = "http://localhost:8080/";//9000 Also we can use.
+            var baseUri = miGuardConfig.Settings.API.BaseURL;
 
             #region Sample
             // Start OWIN host 

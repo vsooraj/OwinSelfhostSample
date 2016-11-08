@@ -2,6 +2,7 @@
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Newtonsoft.Json;
+using OwinSelfhostSample.Configuration;
 using System;
 using System.Net.Http;
 using System.Security.Claims;
@@ -36,7 +37,13 @@ namespace OwinSelfhostSample.Controllers
 
             var password = EncodedString(login.Password);
 
-            var domainName = EncodedString(System.Configuration.ConfigurationManager.AppSettings["DirectoryDomain"]);
+            var domainName = string.Empty; //EncodedString(System.Configuration.ConfigurationManager.AppSettings["DirectoryDomain"]);
+            var host = miGuardConfig.Settings.API.Authentication.Parameters[0].Value;
+            var port = miGuardConfig.Settings.API.Authentication.Parameters[1].Value;
+            if (!string.IsNullOrEmpty(host) && !string.IsNullOrEmpty(port))
+            {
+                domainName = host.Trim() + ":" + port.Trim();
+            }
 
             if (!accountRepository.ValidateCredentials(domainName, login.UserName, password, out identity))
             {
