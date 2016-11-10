@@ -3,6 +3,7 @@ using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Newtonsoft.Json;
 using OwinSelfhostSample.Configuration;
+using OwinSelfhostSample.Models;
 using System;
 using System.Net.Http;
 using System.Security.Claims;
@@ -15,12 +16,11 @@ namespace OwinSelfhostSample.Controllers
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
     {
-        private AccountRepository accountRepository;
+        private readonly IAccountRepository _accountRepository;
 
-        public AccountController()
+        public AccountController(IAccountRepository accountRepository)
         {
-
-            accountRepository = new AccountRepository();
+            _accountRepository = accountRepository;
         }
 
         [AllowAnonymous]
@@ -45,7 +45,7 @@ namespace OwinSelfhostSample.Controllers
                 domainName = host.Trim() + ":" + port.Trim();
             }
 
-            if (!accountRepository.ValidateCredentials(domainName, login.UserName, password, out identity))
+            if (!_accountRepository.ValidateCredentials(domainName, login.UserName, password, out identity))
             {
 
                 return BadRequest("Incorrect username or password");

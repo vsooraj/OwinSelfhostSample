@@ -13,17 +13,17 @@ namespace OwinSelfhostSample.Controllers
     [RoutePrefix("api/operations")]
     public class OperationsController : ApiController
     {
-        private OperationsRepository operationsRepository;
+        private readonly IOperationsRepository _operationsRepository;
 
-        public OperationsController()
+        public OperationsController(IOperationsRepository operationsRepository)
         {
-            operationsRepository = new OperationsRepository();
+            _operationsRepository = operationsRepository;
         }
         [Authorize]
         [HttpGet]
         public PageResult<Operation> Get(ODataQueryOptions options)
         {
-            var operations = this.operationsRepository.Operations.ToList();
+            var operations = this._operationsRepository.GetOperations().ToList();
             var results = options.ApplyTo(operations.AsQueryable());
             return new PageResult<Operation>(results as IEnumerable<Operation>, Request.RequestUri, Request.ODataProperties().TotalCount);
         }
@@ -33,7 +33,7 @@ namespace OwinSelfhostSample.Controllers
         [Route("{id:int}")]
         public Operation Get(int id)
         {
-            var operation = operationsRepository.Operations.FirstOrDefault(c => c.operationId == id);
+            var operation = _operationsRepository.GetOperations().FirstOrDefault(c => c.operationId == id);
             if (operation == null)
             {
                 throw new HttpResponseException(
@@ -45,7 +45,7 @@ namespace OwinSelfhostSample.Controllers
         [Route("{name}")]
         public IHttpActionResult Get(bool name)
         {
-            var item = this.operationsRepository.Operations.FirstOrDefault(c => c.required == name);
+            var item = this._operationsRepository.GetOperations().FirstOrDefault(c => c.required == name);
             if (item == null)
             {
                 throw new HttpResponseException(

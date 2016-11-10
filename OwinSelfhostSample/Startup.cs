@@ -1,9 +1,15 @@
-﻿using Microsoft.Owin.FileSystems;
+﻿using Autofac;
+using Autofac.Integration.WebApi;
+using Microsoft.Owin.FileSystems;
 using Microsoft.Owin.Security.OAuth;
 using Microsoft.Owin.StaticFiles;
 using Newtonsoft.Json.Serialization;
 using Owin;
+using OwinSelfhostSample.Controllers;
+using OwinSelfhostSample.Models;
+using System.Reflection;
 using System.Web.Http;
+
 
 
 
@@ -16,9 +22,9 @@ namespace OwinSelfhostSample
         static Startup()
         {
             OAuthOptions = new OAuthAuthorizationServerOptions();
+            //Bootstrapper.Run();
+
         }
-
-
         public void Configuration(IAppBuilder appBuilder)
         {
 
@@ -39,7 +45,23 @@ namespace OwinSelfhostSample
             config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
 
             config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            //Autofac Start
+            var builder = new ContainerBuilder();
+            builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
+            builder.Register(c => new AccountRepository()).As<IAccountRepository>().InstancePerRequest();
+            builder.Register(c => new ItemRepository()).As<IItemRepository>().InstancePerRequest();
+            builder.Register(c => new OperationsRepository()).As<IOperationsRepository>().InstancePerRequest();
+
+
+            var container = builder.Build();
+            var resolver = new AutofacWebApiDependencyResolver(container);
+            GlobalConfiguration.Configuration.DependencyResolver = resolver;
+
+            appBuilder.UseAutofacMiddleware(container);
+            appBuilder.UseAutofacWebApi(config);
+            //Autofac End
             appBuilder.UseWebApi(config);
+
 
             // Configure Web API to use only bearer token authentication.
             //config.SuppressDefaultHostAuthentication();
@@ -74,7 +96,6 @@ namespace OwinSelfhostSample
 
             //config.Filters.Add(new BasicAuthenticationAttribute());
 
-
             const string rootFolder = @"..\..\miGuardClient";
             var fileSystem = new PhysicalFileSystem(rootFolder);
             var options = new FileServerOptions
@@ -87,6 +108,8 @@ namespace OwinSelfhostSample
             options.DefaultFilesOptions.DefaultFileNames = new[] { "index.html" };
             appBuilder.UseFileServer(options);
         }
+
+
 
     }
 

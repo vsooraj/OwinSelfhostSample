@@ -4,12 +4,12 @@ using System.Linq;
 
 namespace OwinSelfhostSample.Models
 {
-    public class ItemRepository
+    public class ItemRepository : IItemRepository
     {
         private static List<Item> _items = new List<Item>
             {
-                new Item { itemId = 1, content="Lumia",encryptionKey="22",encryptionProvider="sha64", MetaItem=new Dictionary<string, string>() { {"Lumia", "Lumia Emtatdata" } },requestType="GET",sourceEntity="Lumia Entity", sourceDevice = "Lumia" },
-                new Item { itemId = 2, content="Nexus",encryptionKey="2234",encryptionProvider="sha128",MetaItem= new Dictionary<string, string>(){ {"Nexus", "Nexus Emtatdata" } },requestType="POST",sourceEntity="Nexus Entity", sourceDevice = "Nexus"},
+                new Item { itemId = 1,content="Lumia",encryptionKey="22",encryptionProvider="sha64", MetaItem=new Dictionary<string, string>() { {"Lumia", "Lumia Emtatdata" } },requestType="GET",sourceEntity="Lumia Entity", sourceDevice = "Lumia" },
+                new Item { itemId = 2,content="Nexus",encryptionKey="2234",encryptionProvider="sha128",MetaItem= new Dictionary<string, string>(){ {"Nexus", "Nexus Emtatdata" } },requestType="POST",sourceEntity="Nexus Entity", sourceDevice = "Nexus"},
                 new Item { itemId = 3,content="iPhone 3",encryptionKey="32345",encryptionProvider="sha256",MetaItem= new Dictionary<string, string>(){ {"iPhone", "iPhone Emtatdata"} },requestType="PUT",sourceEntity="iPhone Entity", sourceDevice = "iPhone" },
                 new Item { itemId = 4,content="iPhone 4",encryptionKey="423456",encryptionProvider="sha512",MetaItem= new Dictionary<string, string>(){ {"iPhone", "iPhone Emtatdata"} },requestType="PUT",sourceEntity="iPhone Entity", sourceDevice = "iPhone" },
                 new Item { itemId = 5,content="iPhone 5",encryptionKey="523457",encryptionProvider="sha256",MetaItem= new Dictionary<string, string>(){ {"iPhone", "iPhone Emtatdata"} },requestType="PUT",sourceEntity="iPhone Entity", sourceDevice = "iPhone" },
@@ -28,12 +28,10 @@ namespace OwinSelfhostSample.Models
         {
             get { return _items.AsQueryable(); }
         }
-
-        //public void Remove(Item item)
-        //{
-        //    _items.Remove(item);
-
-        //}
+        public IQueryable<Item> GetItems()
+        {
+            return Items;
+        }
         public void Remove(int id)
         {
             _items.RemoveAll(p => p.itemId == id);

@@ -14,16 +14,19 @@ namespace OwinSelfhostSample.Controllers
     [RoutePrefix("api/Items")]
     public class ItemsController : ApiController
     {
-        private ItemRepository itemRepository;
-        public ItemsController()
+        private readonly IItemRepository _itemRepository;
+      
+        public ItemsController(IItemRepository itemRepository)
         {
-            itemRepository = new ItemRepository();
+            _itemRepository = itemRepository;
         }
+
+
         [Authorize]
         [HttpGet]
         public PageResult<Item> Get(ODataQueryOptions options)
         {
-            var items = this.itemRepository.Items.ToList();
+            var items = this._itemRepository.GetItems().ToList();
             var results = options.ApplyTo(items.AsQueryable());
             return new PageResult<Item>(results as IEnumerable<Item>, Request.RequestUri, Request.ODataProperties().TotalCount);
         }
@@ -61,7 +64,7 @@ namespace OwinSelfhostSample.Controllers
         [Route("{id:int}")]
         public IHttpActionResult Get(int id)
         {
-            var item = itemRepository.Items.FirstOrDefault(c => c.itemId == id);
+            var item = _itemRepository.GetItems().FirstOrDefault(c => c.itemId == id);
             if (item == null)
             {
                 throw new HttpResponseException(
@@ -73,7 +76,7 @@ namespace OwinSelfhostSample.Controllers
         [Route("{name}")]
         public IHttpActionResult Get(string name)
         {
-            var item = this.itemRepository.Items.FirstOrDefault(c => c.sourceDevice.ToLower() == name.ToLower());
+            var item = this._itemRepository.GetItems().FirstOrDefault(c => c.sourceDevice.ToLower() == name.ToLower());
             if (item == null)
             {
                 throw new HttpResponseException(
@@ -88,7 +91,7 @@ namespace OwinSelfhostSample.Controllers
             {
                 return BadRequest("Argument Null");
             }
-            var itemExists = itemRepository.Items.Any(c => c.itemId == item.itemId);
+            var itemExists = _itemRepository.GetItems().Any(c => c.itemId == item.itemId);
 
             if (itemExists)
             {
@@ -104,7 +107,7 @@ namespace OwinSelfhostSample.Controllers
             {
                 return BadRequest("Argument Null");
             }
-            var existing = itemRepository.Items.FirstOrDefault(c => c.itemId == item.itemId);
+            var existing = _itemRepository.GetItems().FirstOrDefault(c => c.itemId == item.itemId);
 
             if (existing == null)
             {
@@ -138,11 +141,11 @@ namespace OwinSelfhostSample.Controllers
             var items = ids.Split(',');
             foreach (var tempItem in items)
             {
-                Item item = itemRepository.Items.FirstOrDefault(c => c.itemId == Convert.ToInt16(tempItem));
+                Item item = _itemRepository.GetItems().FirstOrDefault(c => c.itemId == Convert.ToInt16(tempItem));
                 if (item == null)
                     return BadRequest("Item with id " + tempItem + "not found");
                 else
-                    itemRepository.Remove(Convert.ToInt16(tempItem));
+                    _itemRepository.Remove(Convert.ToInt16(tempItem));
             }
 
             return Ok();

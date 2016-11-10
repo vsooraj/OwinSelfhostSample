@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace OwinSelfhostSample.Models
 {
-    public class OperationsRepository
+    public class OperationsRepository : IOperationsRepository
     {
         private static List<Operation> _operations = new List<Operation>
             {
@@ -30,6 +30,10 @@ namespace OwinSelfhostSample.Models
         public IQueryable<Operation> Operations
         {
             get { return _operations.AsQueryable(); }
+        }
+        public IQueryable<Operation> GetOperations()
+        {
+            return Operations;
         }
     }
 }
